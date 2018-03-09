@@ -1,0 +1,41 @@
+languageCode = "en-us"
+title = "Learn Blazor"
+
+# Change the default theme to be use when building the site with Hugo
+theme = "hugo-theme-learn" 
+
+# For search functionnality
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[params]
+  editURL = "https://github.com/software-architects/learn-blazor/"
+  author = "Rainer Stropek"
+  description = "Website with learning resources regarding the Blazor platform"
+  disableLanguageSwitchingButton = true
+  themeVariant = "blue"
+  disclaimer = "Blazor is an experimental project. It changes frequently and evolves rapidly. Therefore, it is possible that some content on this website is already outdated."
+
+[[menu.shortcuts]] 
+name = "<i class='fa fa-github'></i> Blazor on GitHub"
+identifier = "bg"
+url = "https://github.com/aspnet/Blazor"
+weight = 10
+
+[[menu.shortcuts]] 
+name = "<i class='fa fa-youtube'></i> Steve about Blazor"
+identifier = "sy"
+url = "https://www.youtube.com/watch?v=MiLAE6HMr10&feature=youtu.be&t=31m45s"
+weight = 20
+
+[[menu.shortcuts]] 
+name = "<i class='fa fa-code'></i> Technical Intro (Blog)"
+identifier = "ti"
+url = "http://blog.stevensanderson.com/2018/02/06/blazor-intro/"
+weight = 30
+
+[[menu.shortcuts]] 
+name = "<i class='fa fa-bullhorn'></i> Terms of Service"
+identifier = "ts"
+url = "/about"
+weight = 40
