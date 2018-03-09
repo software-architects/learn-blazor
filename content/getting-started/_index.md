@@ -2,6 +2,7 @@
 chapter = true
 title = "Getting Started"
 alwaysopen = true
+weight = 10
 +++
 
 ### Learn Blazor

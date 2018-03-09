@@ -1,8 +1,9 @@
----
-title: "Getting Blazor"
-weight: 20
-lastModifierDisplayName: "rainer@software-architects.at"
----
++++
+title = "Getting Blazor"
+weight = 20
+lastModifierDisplayName = "rainer@software-architects.at"
+date = 2018-03-09
++++
 
 {{% notice note %}}
 {{% siteparam "disclaimer" %}}

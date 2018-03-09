@@ -37,5 +37,5 @@ weight = 30
 [[menu.shortcuts]] 
 name = "<i class='fa fa-bullhorn'></i> Terms of Service"
 identifier = "ts"
-url = "/about"
+url = "/terms-of-service"
 weight = 40

@@ -1,0 +1,30 @@
+﻿<p>Hello, @Name!</p>
+
+<ul>
+    @foreach(var item in log)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+@functions {
+    // Parameter that can be set by parent component
+    public string Name { get; set; }
+
+    private List<string> log = new List<string>();
+    private void Log(string message) => log.Add($"{DateTime.UtcNow.ToString("O")} - {message}");
+
+    protected override void OnInit() => Log("OnInit");
+
+    protected override async Task OnInitAsync()
+    {
+        Log("OnInitAsync starting");
+
+        // Simulate async initialization work
+        await Task.Delay(1000);
+
+        Log("OnInitAsync finished");
+    }
+
+    protected override void OnParametersSet() => Log("OnParametersSet");
+}

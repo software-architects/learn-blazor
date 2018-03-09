@@ -2,6 +2,7 @@
 title = "What is Blazor?"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
+date = 2018-03-09
 +++
 
 {{% notice note %}}
