@@ -26,5 +26,6 @@ This website is for developers who want to experiment with Blazor at this early 
 Do you have questions? Found a bug in this website?
 
 * Contact me on <i class='fa fa-twitter'></i> at [@rstropek](https://twitter.com/rstropek)
+* Use the discussion area at the bottom of each page.
 * [Create an issue](https://github.com/software-architects/learn-blazor/issues) on <i class='fa fa-github'></i>
 * [Contribute a pull request](https://github.com/software-architects/learn-blazor) on <i class='fa fa-github'></i>

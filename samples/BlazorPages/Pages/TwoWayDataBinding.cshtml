@@ -1,0 +1,26 @@
+﻿<p>
+    Enter your name: <input type="text" @bind(Name)><br />
+    What is your age? <input type="number" @bind(Age)><br />
+    Are you an administrator? <input type="checkbox" @bind(IsAdmin)>
+</p>
+
+<h2>Hello, @Name!</h2>
+
+<p>You are @Age years old.</p>
+
+@if (IsAdmin)
+{
+    <p>You are an administrator!</p>
+}
+
+@functions {
+    private string Name { get; set; } = "Tom";
+    private bool IsAdmin { get; set; } = true;
+
+    private int age = 33;
+    private string Age
+    {
+        get => age.ToString();
+        set => Int32.TryParse(value, out age);
+    }
+}

@@ -1,0 +1,13 @@
+﻿<!-- Note that Console.WriteLine goes to the browsers console -->
+
+<button @onclick(Clicked)>Click me</button>
+<button @onclick(() => Console.WriteLine("Hello World"))>Click me</button>
+
+<input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
+
+@functions {
+    private void Clicked()
+    {
+        Console.WriteLine("Hello World");
+    }
+}

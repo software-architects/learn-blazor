@@ -1,0 +1,57 @@
+﻿<!-- Use this button to trigger changes in the source values -->
+<button @onclick(ChangeValues)>Change values</button>
+
+<!-- 
+    Simple interpolation
+    In Angular, this would be {{ Count }}
+-->
+<p>Counter: @Count</p>
+
+<!-- 
+    Conditionally display content 
+    In Angular, this would be *ngIf
+-->
+@if (ShowWarning)
+{
+    <p style="background-color: red; padding: 5px">Warning!</p>
+}
+
+<!--
+    Style binding
+    In Angular, you would do that with [style.backgroundColor]="..."
+-->
+<p style="background-color: @Background; color=white; padding: 5px">Notification</p>
+
+<!--
+    Add/remove class
+    In Angular, you would do that with [class.highlight]="..."
+-->
+<p class="note @((NoteIsActive ? "highlight" : ""))">This is a note</p>
+
+<!--
+    Bind to a collection 
+    In Angular, you would do that with *ngFor
+-->
+<ul>
+    @foreach(var number in Numbers)
+    {
+        <li>@number</li>
+    }
+</ul>
+
+@functions {
+    private int Count { get; set; } = 0;
+    private bool ShowWarning { get; set; } = true;
+    private string Background { get; set; } = "red";
+    private bool NoteIsActive { get; set; } = true;
+    private List<int> Numbers { get; set; } = new List<int> { 1, 2, 3 };
+
+    private void ChangeValues()
+    {
+        Count++;
+        ShowWarning = !ShowWarning;
+        Background = Background == "red" ? "green" : "red";
+        NoteIsActive = !NoteIsActive;
+        Numbers.Add(Numbers.Max() + 1);
+    }
+}

@@ -1,2 +1,7 @@
-﻿body {
+﻿.note {
+    padding: 5px;
+}
+
+.highlight {
+    background-color: yellow;
 }
