@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Architecture.Services
@@ -22,6 +23,14 @@ namespace Architecture.Services
             new Customer { FirstName = "Foo", LastName = "Bar" },
             new Customer { FirstName = "John", LastName = "Doe" }
         };
+
+        // Note that the constructor gets an HttpClient via dependency
+        // injection. HttpClient is a default service offered by Blazor.
+        public Repository(HttpClient client)
+        {
+            // In practice, we would store the HttpClient and use it
+            // to get customers via e.g. a RESTful Web API
+        }
 
         public async Task<IReadOnlyList<Customer>> GetAllCustomersAsync()
         {

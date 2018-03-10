@@ -1,16 +1,17 @@
 +++
 title = "Dependency Injection"
-weight = 5
+weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-09
+date = 2018-03-10
 +++
 
 ## Introduction
 
-WORK IN PROGRESS
+Blazor has dependency injection built in. Take a look at the following simplified code sample. It defines a repository (e.g. a database) from which we can get customer data asynchronously. In order to decouple the user of the repository (e.g. Blazor component) from the implementation (`Repository` class shown below), we introduce an interface (`IRepository`). The decoupling enables us to use different repository implementations e.g. for unit tests.
 
 ```cs
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Architecture.Services
@@ -35,6 +36,14 @@ namespace Architecture.Services
             new Customer { FirstName = "John", LastName = "Doe" }
         };
 
+        // Note that the constructor gets an HttpClient via dependency
+        // injection. HttpClient is a default service offered by Blazor.
+        public Repository(HttpClient client)
+        {
+            // In practice, we would store the HttpClient and use it
+            // to get customers via e.g. a RESTful Web API
+        }
+
         public async Task<IReadOnlyList<Customer>> GetAllCustomersAsync()
         {
             // Simulate some long running, async work (e.g. web request)
@@ -45,6 +54,10 @@ namespace Architecture.Services
     }
 }
 ```
+
+## Setting up the Service Provider
+
+We have to add the available application-level services in the program's `Main` method. When we create the `BrowserRenderer` ([more about *renderers*](/getting-started/what-is-blazor/#renderer)) to bootstrap our Blazor app, it expects a *service provider* (`System.IServiceProvider`). Blazor comes with a service provider specifically for the browser (`Microsoft.AspNetCore.Blazor.Browser.Services.BrowserServiceProvider`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Services/BrowserServiceProvider.cs)). It accepts a configuration functions in which we have to add services to Blazor's dependency injection system. If you are familiar with ASP.NET Core, the API should feel quite natural for
 
 ```cs
 using Architecture.Services;
@@ -69,6 +82,10 @@ namespace Architecture
 }
 ```
 
+## Injecting Services
+
+To inject a service in a component, use the `@inject` keyword as shown in the following sample. Technically, this generates a property with the given name and type. The property is decorated with the attribute `Microsoft.AspNetCore.Blazor.Components.InjectAttribute` so that Blazor's component factory (`Microsoft.AspNetCore.Blazor.Components.ComponentFactory`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Components/ComponentFactory.cs)) knows that it has to fill it when creating the component.
+
 ```cs
 @using Architecture.Services
 @inject IRepository Repository
@@ -92,3 +109,11 @@ namespace Architecture
     }
 }
 ```
+
+## Default Services
+
+At the time of writing, Blazor offers two default services that you can request via dependency injection:
+
+* `System.Net.Http.HttpClient` - HTTP client that you can use to access local web APIs. Note that the `BaseAddress` is already set on this HTTP client.
+
+* `Microsoft.AspNetCore.Blazor.Services.IUriHelper` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Services/IUriHelper.cs) - helpers for working with URIs and navigation state

@@ -56,6 +56,8 @@ The following image illustrates the process. On the right side, you see the Razo
 
 ## HTML Output
 
+### Overview
+
 Unlike former platforms like Silverlight, it does **not** bring its own rendering engine to paint pixels on the screen.
 
 > Blazor uses the Browser's DOM to display data.
@@ -76,7 +78,6 @@ sequenceDiagram
     JavaScript->>DOM: Change DOM
 {{< /mermaid >}}
 
-
 1. The C#-part of Blazor creates a [*Render Tree*](https://github.com/aspnet/Blazor/tree/dev/src/Microsoft.AspNetCore.Blazor/RenderTree) which is a tree of UI items.
 
 1. The render tree is passed from WebAssembly to the [*Rendering*](https://github.com/aspnet/Blazor/tree/dev/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering) in the JavaScript-part of Blazor. It executes the corresponding DOM changes.
@@ -88,3 +89,11 @@ sequenceDiagram
 1. If the DOM changes, a [*Render Batch*](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Rendering/RenderBatch.cs) with all the UI tree **differences** (**not** the entire UI tree) is built in C# and given to a JavaScript Blazor method that applies the DOM changes.
 
 Because Blazor is using the regular browser DOM, all usual DOM mechanisms including CSS work keep working.
+
+### Renderer
+
+In Blazor, *renderers* (classes derived from the abstract class `Microsoft.AspNetCore.Blazor.Rendering.Renderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Rendering/Renderer.cs)) provide mechanisms for rendering hierarchies of *components* (classes implementing `Microsoft.AspNetCore.Blazor.Components.IComponent`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Components/IComponent.cs)), dispatching events to them, and notifying when the user interface is being updated.
+
+For running in the browser, Blazor comes with a *browser renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.BrowserRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)).
+
+For unit tests, Blazor currently uses a *test renderer* (`Microsoft.AspNetCore.Blazor.Test.Helpers`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/test/shared/TestRenderer.cs))
