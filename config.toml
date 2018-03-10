@@ -9,7 +9,7 @@ theme = "hugo-theme-learn"
 home = [ "HTML", "RSS", "JSON"]
 
 [params]
-  editURL = "https://github.com/software-architects/learn-blazor/"
+  editURL = "https://github.com/software-architects/learn-blazor/tree/master/content/"
   author = "Rainer Stropek"
   description = "Website with learning resources regarding the Blazor platform"
   disableLanguageSwitchingButton = true
