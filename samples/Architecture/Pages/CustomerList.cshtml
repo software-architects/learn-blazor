@@ -1,0 +1,21 @@
+﻿@using Architecture.Services
+@inject IRepository Repository
+
+<ul>
+    @if (Customers != null)
+    {
+        @foreach (var customer in Customers)
+        {
+            <li>@customer.FirstName @customer.LastName</li>
+        }
+    }
+</ul>
+
+@functions { 
+    private IReadOnlyList<Customer> Customers;
+
+    protected override async Task OnInitAsync()
+    {
+        Customers = await Repository.GetAllCustomersAsync();
+    }
+}
