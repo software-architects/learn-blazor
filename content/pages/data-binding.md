@@ -108,6 +108,37 @@ Blazor already supports two-way data binding using `@bind`. The following exampl
 }
 ```
 
+## Manually Trigger UI Refresh
+
+Blazor detects a necessary UI refresh automatically in many scenarios (e.g. after button click). However, there are situations in which you want to trigger a UI refresh manually. Use the `BlazorComponent.StateHasChanged` method for that as shown in the following sample. It changes the application's state using a timer.
+
+```cs
+@using System.Threading;
+
+<h1>@Count</h1>
+
+<button @onclick(StartCountdown)>Start Countdown</button>
+
+@functions {
+    private int Count { get; set; } = 10;
+
+    void StartCountdown()
+    {
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+            if (Count > 0)
+            {
+                Count--;
+
+                // Note that the following line is necessary because otherwise
+                // Blazor would not recognize the state change and not refresh the UI
+                this.StateHasChanged();
+            }
+        }), null, 1000, 1000);
+    }
+}
+```
+
 ## Event Binding
 
 At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, the Blazor code contains a lot of *TODO* comments regarding events, so hopefully more is to come ;-)

@@ -1,0 +1,30 @@
+﻿<h1>Welcome</h1>
+
+<p>Lorem ipsum...</p>
+
+<button type="button" @onclick(() => ShouldRender())>
+    Trigger rendering (i.e. makes text longer)
+</button>
+
+@DynamicFragment
+
+<p>Lorem ipsum...</p>
+
+@functions {
+    private string dynamicContent = "This is a long text...";
+
+    protected override void OnInit()
+    {
+        DynamicFragment = builder =>
+        {
+            // Make the text longer every time this delegate is called
+            dynamicContent = dynamicContent.Replace("long", "long long");
+
+            builder.OpenElement(1, "p");
+            builder.AddContent(2, dynamicContent);
+            builder.CloseElement();
+        };
+    }
+
+    private Microsoft.AspNetCore.Blazor.RenderFragment DynamicFragment;
+}

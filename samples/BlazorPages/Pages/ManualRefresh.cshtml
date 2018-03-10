@@ -1,0 +1,24 @@
+﻿@using System.Threading;
+
+<h1>@Count</h1>
+
+<button @onclick(StartCountdown)>Start Countdown</button>
+
+@functions {
+    private int Count { get; set; } = 10;
+
+    void StartCountdown()
+    {
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+            if (Count > 0)
+            {
+                Count--;
+
+                // Note that the following line is necessary because otherwise
+                // Blazor would not recognize the state change and not refresh the UI
+                this.StateHasChanged();
+            }
+        }), null, 1000, 1000);
+    }
+}
