@@ -1,9 +1,8 @@
-﻿using Architecture.Services;
-using Microsoft.AspNetCore.Blazor.Browser.Rendering;
+﻿using Microsoft.AspNetCore.Blazor.Browser.Rendering;
 using Microsoft.AspNetCore.Blazor.Browser.Services;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace Architecture
+namespace Router
 {
     class Program
     {
@@ -11,7 +10,7 @@ namespace Architecture
         {
             var serviceProvider = new BrowserServiceProvider(configure =>
             {
-                configure.Add(ServiceDescriptor.Singleton<IRepository, Repository>());
+                // Add any custom services here
             });
 
             new BrowserRenderer(serviceProvider).AddComponent<App>("app");

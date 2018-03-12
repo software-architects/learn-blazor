@@ -2,7 +2,7 @@
 title = "About"
 weight = 5
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-09
+date = 2018-03-12
 +++
 
 ## Introduction
@@ -20,6 +20,10 @@ Today, nobody knows for sure what the future of Blazor is. It might change funda
 ## Target Audience
 
 This website is for developers who want to experiment with Blazor at this early stage of the project. It assumes that you have background knowledge in client- and server-side web development with JavaScript and C#. This website is not well suited for people trying to start web development.
+
+## Samples
+
+If you want to execute and experiment with the code shown on this page, download the complete samples [from GitHub](https://github.com/software-architects/learn-blazor/tree/master/samples).
 
 ## Questions?
 

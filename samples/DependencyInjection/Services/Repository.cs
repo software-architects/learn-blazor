@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Architecture.Services
+namespace DependencyInjection.Services
 {
     public class Customer
     {

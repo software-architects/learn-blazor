@@ -29,6 +29,24 @@ The class offers a bunch of virtual methods that you can override.
 
 You can override `ShouldRender` to suppress refreshing of the UI. If your implementation returns `true`, UI is refreshed. Otherwise, changes are not propagated to the UI.
 
+## Implementing `IDisposable`
+
+Blazor components can implement `IDisposable`. If they do, the [router](../router) disposes the component when the user navigates away from the component. If you implement a component [purely in C#](../dynamic-content/#dynamic-component), you can implement `IDisposable` as usually. If you use a Blazor template, you can use `@(Implements<IDisposable>())`:
+
+```cs
+...
+@using System;
+@(Implements<IDisposable>())
+...
+
+@functions {
+    public void Dispose()
+    {
+        ...
+    }
+}
+```
+
 ## Sample
 
 The following sample defines a Blazor page that overrides lifecycle methods and adds log messages whenever they are called. Additionally, it defines a parameter that can be set by parent components.

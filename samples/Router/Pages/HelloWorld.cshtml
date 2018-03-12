@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Blazor.Services
+@using Microsoft.AspNetCore.WebUtilities;
+@using System;
+@(Implements<IDisposable>())
+@inject IUriHelper UriHelper
+
+<h1>Hello @Type World!</h1>
+
+<c:Menu />
+
+@functions {
+    private string Type { get; set; }
+
+    protected override void OnInit()
+    {
+        RefreshType();
+        UriHelper.OnLocationChanged += OnLocationChanges;
+    }
+
+    private void OnLocationChanges(object sender, string location) => RefreshType();
+
+    private void RefreshType()
+    {
+        var uri = new Uri(UriHelper.GetAbsoluteUri());
+        Type = QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type) ? type.First() : "";
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        UriHelper.OnLocationChanged -= OnLocationChanges;
+    }
+}
