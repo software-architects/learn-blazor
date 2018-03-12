@@ -158,3 +158,33 @@ At the time or writing, event binding is quite limited in Blazor. Just `@onclick
     }
 }
 ```
+
+Components can offer callbacks that parent components can use to react on events raised by their child components. Imagine the following child component:
+
+```
+<button @onclick(OnClick)>Click me (child component)</button>
+
+@functions {
+    public Action OnSomeEvent { get; set; }
+
+    private void OnClick()
+    {
+        OnSomeEvent?.Invoke();
+    }
+}
+```
+
+The parent component can handle on `OnSomeEvent` like this (Note that the typecast in the binding is temporary, it will not be necessary in future release of Blazor):
+
+```cs
+...
+<c:ChildComponent OnSomeEvent=@((Action)ChildEventClicked) />
+
+@functions {
+    ...
+    private void ChildEventClicked()
+    {
+        Console.WriteLine("Child event clicked");
+    }
+}
+```

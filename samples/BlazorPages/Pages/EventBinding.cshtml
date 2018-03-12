@@ -5,9 +5,16 @@
 
 <input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
 
+<c:ChildComponent OnSomeEvent=@((Action)ChildEventClicked) />
+
 @functions {
     private void Clicked()
     {
         Console.WriteLine("Hello World");
+    }
+
+    private void ChildEventClicked()
+    {
+        Console.WriteLine("Child event clicked");
     }
 }
