@@ -2,6 +2,6 @@
     Configuring this stuff here is temporary. Later we'll move the app config
     into Program.cs, and it won't be necessary to specify AppAssembly.
 -->
-<c:Router AppAssembly=@(typeof(Program).Assembly)
-          PagesNamespace=@("BlazorPages.Pages")
-          DefaultComponentName=@("EventBinding")/>
+<Router AppAssembly=typeof(Program).Assembly
+          PagesNamespace="BlazorPages.Pages"
+          DefaultComponentName="InitializationParent" />

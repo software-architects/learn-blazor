@@ -91,7 +91,7 @@ To test our code, we can write the following parent component. Note that it chan
 
 <button type="button" @onclick(SwitchName) >Switch Name</button>
 
-<c:Initialization Name=@Name/>
+<Initialization Name=@Name/>
 
 @functions {
     private string Name { get; set; } = "Tom";

@@ -20,14 +20,14 @@ If you create a new Blazor app, the router is configured in *App.cshtml*. Note i
     Configuring this stuff here is temporary. Later we'll move the app config
     into Program.cs, and it won't be necessary to specify AppAssembly.
 -->
-<c:Router AppAssembly=@(typeof(Program).Assembly)
-          PagesNamespace=@("Router.Pages")
-          DefaultComponentName=@("HelloWorld")/>
+<Router AppAssembly=typeof(Program).Assembly
+        PagesNamespace="Router.Pages"
+        DefaultComponentName="HelloWorld" />
 ```
 
 ## Class Resolution
 
-The router looks for classes in the `Pages` namespace whose name fits to the query string. Therefore, `http://localhost:<port>/HelloUniverse` loads the component (=class) `HelloUniverse` in the namespace `Router.Pages` assuming that `Router` is the base namespace of the web app. `http://localhost:<port>/OuterSpace/HelloMoon` would load the component `Router.Pages.HelloMoon`.
+The router looks for classes in the `Pages` namespace (can be changed in *App.cshtml*, see also code snippet above) whose name fits to the query string. Therefore, `http://localhost:<port>/HelloUniverse` loads the component (=class) `HelloUniverse` in the namespace `Router.Pages` assuming that `Router` is the base namespace of the web app. `http://localhost:<port>/OuterSpace/HelloMoon` would load the component `Router.Pages.HelloMoon`.
 
 ## Links
 
@@ -46,7 +46,7 @@ Here is an example of a simple menu with client-side links:
 </p>
 
 <p>
-    <c:NavLink href=@("/HelloUniverse")>Hello Universe</c:NavLink><br />
+    <NavLink href=@("/HelloUniverse")>Hello Universe</NavLink><br />
 </p>
 ```
 
@@ -57,15 +57,12 @@ Note that Blazor does not recreate a component if only the URL parameters change
 You can add query parameters using the `IUriHelper` [default service](http://localhost:1313/architecture/dependency-injection/#default-services). The following example shows how this can be done. Note that it requires referencing the NuGet package `Microsoft.AspNetCore.WebUtilities` in your *.csproj* file.
 
 ```cs
-@using Microsoft.AspNetCore.Blazor.Services
-@using Microsoft.AspNetCore.WebUtilities;
-@using System;
-@(Implements<IDisposable>())
-@inject IUriHelper UriHelper
+@implements IDisposable
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 <h1>Hello @Type World!</h1>
 
-<c:Menu />
+<MainMenu />
 
 @functions {
     private string Type { get; set; }
@@ -81,7 +78,7 @@ You can add query parameters using the `IUriHelper` [default service](http://loc
     private void RefreshType()
     {
         var uri = new Uri(UriHelper.GetAbsoluteUri());
-        Type = QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type) ? type.First() : "";
+        Type = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type) ? type.First() : "";
         StateHasChanged();
     }
 

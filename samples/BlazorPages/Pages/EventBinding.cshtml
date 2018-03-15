@@ -5,7 +5,7 @@
 
 <input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
 
-<c:ChildComponent OnSomeEvent=@((Action)ChildEventClicked) />
+<ChildComponent OnSomeEvent=ChildEventClicked() />
 
 @functions {
     private void Clicked()

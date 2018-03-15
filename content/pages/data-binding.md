@@ -178,7 +178,7 @@ The parent component can handle on `OnSomeEvent` like this (Note that the typeca
 
 ```cs
 ...
-<c:ChildComponent OnSomeEvent=@((Action)ChildEventClicked) />
+<ChildComponent OnSomeEvent=ChildEventClicked() />
 
 @functions {
     ...

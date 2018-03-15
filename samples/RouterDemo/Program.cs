@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Blazor.Browser.Services;
 using System;
 
-namespace Router
+namespace RouterDemo
 {
     class Program
     {

@@ -13,6 +13,10 @@ date = 2018-03-09
 
 * Once you have [installed Blazor tooling in Visual Studio](../getting-blazor/#getting-the-blazor-bits), use the *New ASP.NET Core Web Application* wizard, run the app and start experimenting.
 
+{{% notice note %}}
+Do not name give your project or your project's folder a name equal to a known type from one of Blazor's namespaces (e.g. `Router`). This would result in build errors that are a bit hard to track down.
+{{% /notice %}}
+
 ![Blazor project templates in Visual Studio](/images/getting-started/vs-project-template.png)
 
 * Clone the [Blazor GitHub repository](https://github.com/aspnet/Blazor) and browse the source code.

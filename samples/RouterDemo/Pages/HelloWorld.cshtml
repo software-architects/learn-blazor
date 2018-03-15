@@ -1,12 +1,9 @@
-﻿@using Microsoft.AspNetCore.Blazor.Services
-@using Microsoft.AspNetCore.WebUtilities;
-@using System;
-@(Implements<IDisposable>())
-@inject IUriHelper UriHelper
+﻿@implements IDisposable
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 <h1>Hello @Type World!</h1>
 
-<c:Menu />
+<MainMenu />
 
 @functions {
     private string Type { get; set; }
@@ -22,7 +19,7 @@
     private void RefreshType()
     {
         var uri = new Uri(UriHelper.GetAbsoluteUri());
-        Type = QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type) ? type.First() : "";
+        Type = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("type", out var type) ? type.First() : "";
         StateHasChanged();
     }
 
