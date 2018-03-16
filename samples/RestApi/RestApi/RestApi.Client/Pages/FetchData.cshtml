@@ -1,0 +1,84 @@
+﻿@using RestApi.Shared
+@inject HttpClient Http
+
+<h1>Customer List</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<button @onclick(async () => await PrintWebApiResponse())>Print Web API Response</button>
+<button @onclick(async () => await FillWithDemoData())>Fill with demo data</button>
+<button @onclick(async () => await DeleteAllCustomers())>Delete all customers</button>
+
+@if (Customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Customers)
+            {
+                <tr>
+                    <td>@customer.ID</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Department</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@functions {
+    private Customer[] Customers { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await RefreshCustomerList();
+    }
+
+    private async Task RefreshCustomerList()
+    {
+        Customers = await Http.GetJsonAsync<Customer[]>("/api/Customer");
+        StateHasChanged();
+    }
+
+    private async Task FillWithDemoData()
+    {
+        for (var i = 0; i < 10; i++)
+        {
+            await Http.SendJsonAsync(HttpMethod.Post, "/api/Customer", new Customer
+            {
+                FirstName = "Tom",
+                LastName = $"Customer {i}",
+                Department = i % 2 == 0 ? "Sales" : "Research"
+            });
+        }
+
+        await RefreshCustomerList();
+    }
+
+    private async Task DeleteAllCustomers()
+    {
+        foreach (var c in Customers)
+        {
+            await Http.DeleteAsync($"/api/Customer/{c.ID}");
+        }
+
+        await RefreshCustomerList();
+    }
+
+    private async Task PrintWebApiResponse()
+    {
+        var response = await Http.GetStringAsync("/api/Customer");
+        Console.WriteLine(response);
+    }
+}

@@ -2,7 +2,7 @@
 title = "Dependency Injection"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-10
+date = 2018-03-15
 +++
 
 ## Introduction
