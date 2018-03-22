@@ -3,3 +3,4 @@ obj
 .vs
 *.csproj.user
 launchSettings.json
+PublishProfiles
