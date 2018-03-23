@@ -2,7 +2,7 @@
 title = "Dynamic Content"
 weight = 30
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-09
+date = 2018-03-23
 +++
 
 {{% notice note %}}
@@ -15,7 +15,7 @@ Sometimes you want create HTML using an algorithm instead of a template. Think o
 
 The class that is used for dynamically generating content is `Microsoft.AspNetCore.Blazor.RenderTree.RenderTreeBuilder` ([source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/RenderTree/RenderTreeBuilder.cs)). It contains methods to open elements, add attributes, add content, add components, etc. Take a look at the source code or use IntelliSense in Visual Studio to see all available render methods.
 
-Note that you can put this class in your project's *Pages* folder where the rest of your Blazor templates are. Blazor's router will work just fine for your code-only component.
+Note that you can put this class anywhere in your project. Just make sure to add the `Route` attribute as shown in the example below. [Blazor's router](../router/) will work just fine for your code-only component.
 
 ```cs
 using Microsoft.AspNetCore.Blazor.Components;
@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Blazor.RenderTree;
 
 namespace BlazorPages.Pages
 {
+    [Route("/dynamic-render-tree")]
     public class DynamicRenderTree : BlazorComponent
     {
         protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -56,6 +57,8 @@ namespace BlazorPages.Pages
 It is not necessary to build the entire component in C#. You can also dynamically generate fragments as shown in the following example. Note that the method creating the render fragment (delegate in `DynamicFragment`) is called whenever a rendering occurs, not just during component load.
 
 ```cs
+@page "/render-fragment"
+
 <h1>Welcome</h1>
 
 <p>Lorem ipsum...</p>

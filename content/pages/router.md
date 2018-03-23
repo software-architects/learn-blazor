@@ -35,6 +35,14 @@ Here is an example for a simple template with a route template:
 <h1>Hello Universe!</h1>
 ```
 
+Components can have multiple routes on which they are available. If you need that, just add multiple `@page` directives or `RouteAttribute` attributes:
+
+```cs
+@page "/"
+@page "/Page1"
+<h1>Page1</h1>
+```
+
 Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{Planet}` would be such a parameter. Parameters are assigned to properties if the component. Here is an example for a simple template with a route parameter:
 
 ```cs

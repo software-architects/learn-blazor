@@ -2,7 +2,7 @@
 title = "Consuming REST APIs"
 weight = 20
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-15
+date = 2018-03-23
 +++
 
 {{% notice note %}}
@@ -11,9 +11,10 @@ date = 2018-03-15
 
 ## Introduction
 
-Developers who are used to writing C# code in ASP.NET will find it very simple to consume web APIs with Blazor. All the usual classes (e.g. `System.Net.Http.HttpClient`) and language constructs (e.g. `async` and `await`) are available. Therefore, a reading data from a server and printing it in the console looks like this in Blazor:
+Developers who are used to writing C# code in ASP.NET will find it very simple to consume web APIs with Blazor. All the usual classes (e.g. `System.Net.Http.HttpClient`) and language constructs (e.g. `async` and `await`) are available. Therefore, reading data from a server and printing it in the console looks like this in Blazor:
 
 ```cs
+@page "/"
 @inject HttpClient Http
 
 <button @onclick(async () => await PrintWebApiResponse())>Print Web API Response</button>
@@ -46,6 +47,7 @@ Blazor comes with [*SimpleJson*](https://github.com/facebook-csharp-sdk/simple-j
 The following sample demonstrates the use of a RESTful Web API implemented with ASP.NET Core and Entity Framework. You can find the complete sample [on GitHub](https://github.com/software-architects/learn-blazor/tree/master/samples/RestApi).
 
 ```cs
+@page "/"
 @using RestApi.Shared
 @inject HttpClient Http
 

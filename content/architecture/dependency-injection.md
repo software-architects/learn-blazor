@@ -2,7 +2,7 @@
 title = "Dependency Injection"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-15
+date = 2018-03-23
 +++
 
 ## Introduction
@@ -87,7 +87,8 @@ namespace Architecture
 To inject a service in a component, use the `@inject` keyword as shown in the following sample. Technically, this generates a property with the given name and type. The property is decorated with the attribute `Microsoft.AspNetCore.Blazor.Components.InjectAttribute` so that Blazor's component factory (`Microsoft.AspNetCore.Blazor.Components.ComponentFactory`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/ComponentFactory.cs)) knows that it has to fill it when creating the component.
 
 ```cs
-@using Architecture.Services
+@page "/"
+@using DependencyInjection.Services
 @inject IRepository Repository
 
 <ul>
@@ -114,6 +115,6 @@ To inject a service in a component, use the `@inject` keyword as shown in the fo
 
 At the time of writing, Blazor offers two default services that you can request via dependency injection:
 
-* `System.Net.Http.HttpClient` - HTTP client that you can use to access local web APIs. Note that the `BaseAddress` is already set on this HTTP client.
+* `System.Net.Http.HttpClient` - HTTP client that you can use to access local web APIs. Note that the `BaseAddress` is already set on this HTTP client. [Read more about consuming Web APIs in Blazor...](/architecture/rest-api/)
 
 * `Microsoft.AspNetCore.Blazor.Services.IUriHelper` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Services/IUriHelper.cs) - helpers for working with URIs and navigation state
