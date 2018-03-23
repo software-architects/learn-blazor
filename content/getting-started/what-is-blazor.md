@@ -42,6 +42,24 @@ The following images illustrates the boot process of a Blazor app in Chrome. The
 
 ![Loading Blazor app in Chrome](/images/getting-started/chrome-load-dlls.png)
 
+Blazor uses [Mono's *IL Linker*](https://github.com/mono/linker) to reduce the size of your app. You see the *IL Linker* in action by looking at the *Output* window during build:
+
+```txt
+1>------ Build started: Project: RouterDemo, Configuration: Debug Any CPU ------
+1>You are working with a preview version of the .NET Core SDK. You can define the SDK version via a global.json file in the current project. More at https://docs.microsoft.com/en-us/dotnet/core/tools/global-json
+1>RouterDemo -> C:\Code\GitHub\learn-blazor\samples\RouterDemo\bin\Debug\netstandard2.0\RouterDemo.dll
+1>Processing embedded resource linker descriptor: mscorlib.xml
+1>Output action:     Link assembly: RouterDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+1>Output action:     Copy assembly: System.Text.Encodings.Web, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+...
+1>Output action:   Delete assembly: System.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+1>Output action:     Link assembly: System.Diagnostics.StackTrace, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+1>Output action:   Delete assembly: System.Drawing, Version=2.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+...
+1>Blazor Build result -> 28 files in C:\Code\GitHub\learn-blazor\samples\RouterDemo\bin\Debug\netstandard2.0\dist
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+```
+
 As you can see, Blazor is **not** just a new [Silverlight](https://en.wikipedia.org/wiki/Microsoft_Silverlight). The biggest difference is that it does not require a plugin. You will learn about other differences later.
 
 ## Razor
