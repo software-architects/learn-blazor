@@ -13,7 +13,7 @@ date = 2018-03-09
 
 Sometimes you want create HTML using an algorithm instead of a template. Think of a chess board. It would be boring to create the HTML table by hand. In Blazor, you can ignore the template and create the component fully in C#. The following code sample demonstrates that. It creates a tic-tac-toe board with nine cells and some CSS classes for formatting.
 
-The class that is used for dynamically generating content is `Microsoft.AspNetCore.Blazor.RenderTree.RenderTreeBuilder` ([source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/RenderTree/RenderTreeBuilder.cs)). It contains methods to open elements, add attributes, add content, add components, etc. Take a look at the source code or use IntelliSense in Visual Studio to see all available render methods.
+The class that is used for dynamically generating content is `Microsoft.AspNetCore.Blazor.RenderTree.RenderTreeBuilder` ([source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/RenderTree/RenderTreeBuilder.cs)). It contains methods to open elements, add attributes, add content, add components, etc. Take a look at the source code or use IntelliSense in Visual Studio to see all available render methods.
 
 Note that you can put this class in your project's *Pages* folder where the rest of your Blazor templates are. Blazor's router will work just fine for your code-only component.
 

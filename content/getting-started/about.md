@@ -2,7 +2,7 @@
 title = "About"
 weight = 5
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-12
+date = 2018-03-23
 +++
 
 ## Introduction
@@ -11,7 +11,7 @@ I am a passionate web developer. The technology stack I mostly use is ASP.NET Co
 
 Blazor is tempting for me because it also allows me to focus on one programming language. However, this time I can use my favorite language C#. Awesome :-)
 
-At the time of writing, Blazor is in a very early stage. Microsoft calls it an *experimental* project.
+At the time of writing, Blazor is in a very early stage. Microsoft calls it an *experimental* project. Its first public preview has been [announced](https://blogs.msdn.microsoft.com/webdev/2018/03/22/get-started-building-net-web-apps-in-the-browser-with-blazor/) on March 22nd, 2018.
 
 {{% notice warning %}}
 Today, nobody knows for sure what the future of Blazor is. It might change fundamentally, it might even never see the light of day. **Don't build production systems with it today!** It's time to experiment, contribute, and give feedback.

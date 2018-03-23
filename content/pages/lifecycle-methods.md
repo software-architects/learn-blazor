@@ -11,7 +11,7 @@ date = 2018-03-09
 
 ## Introduction
 
-If you create a Blazor page (*.cshtml*), Blazor will generate a C# class (see *obj/Debug/netstandard2.0/BlazorRazorComponents.g.cs*) from it. It is derived from `Microsoft.AspNetCore.Blazor.Components.BlazorComponent` ([source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Components/BlazorComponent.cs)).
+If you create a Blazor page (*.cshtml*), Blazor will generate a C# class (see *obj/Debug/netstandard2.0/BlazorRazorComponents.g.cs*) from it. It is derived from `Microsoft.AspNetCore.Blazor.Components.BlazorComponent` ([source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/BlazorComponent.cs)).
 
 The class offers a bunch of virtual methods that you can override.
 

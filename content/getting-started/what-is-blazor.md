@@ -82,18 +82,18 @@ sequenceDiagram
 
 1. The render tree is passed from WebAssembly to the [*Rendering*](https://github.com/aspnet/Blazor/tree/dev/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering) in the JavaScript-part of Blazor. It executes the corresponding DOM changes.
 
-1. Whenever the user interacts with the DOM (e.g. mouse click, enter text, etc.), the JavaScript-part of Blazor [dispatches an event to C#](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRendererEventDispatcher.cs).
+1. Whenever the user interacts with the DOM (e.g. mouse click, enter text, etc.), the JavaScript-part of Blazor [dispatches an event to C#](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRendererEventDispatcher.cs).
 
 1. The event is processed by the C#-code of the web app.
 
-1. If the DOM changes, a [*Render Batch*](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Rendering/RenderBatch.cs) with all the UI tree **differences** (**not** the entire UI tree) is built in C# and given to a JavaScript Blazor method that applies the DOM changes.
+1. If the DOM changes, a [*Render Batch*](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Rendering/RenderBatch.cs) with all the UI tree **differences** (**not** the entire UI tree) is built in C# and given to a JavaScript Blazor method that applies the DOM changes.
 
 Because Blazor is using the regular browser DOM, all usual DOM mechanisms including CSS work keep working.
 
 ### Renderer
 
-In Blazor, *renderers* (classes derived from the abstract class `Microsoft.AspNetCore.Blazor.Rendering.Renderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Rendering/Renderer.cs)) provide mechanisms for rendering hierarchies of *components* (classes implementing `Microsoft.AspNetCore.Blazor.Components.IComponent`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor/Components/IComponent.cs)), dispatching events to them, and notifying when the user interface is being updated.
+In Blazor, *renderers* (classes derived from the abstract class `Microsoft.AspNetCore.Blazor.Rendering.Renderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Rendering/Renderer.cs)) provide mechanisms for rendering hierarchies of *components* (classes implementing `Microsoft.AspNetCore.Blazor.Components.IComponent`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/IComponent.cs)), dispatching events to them, and notifying when the user interface is being updated.
 
-For running in the browser, Blazor comes with a *browser renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.BrowserRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)).
+For running in the browser, Blazor comes with a *browser renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.BrowserRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)).
 
-For unit tests, Blazor currently uses a *test renderer* (`Microsoft.AspNetCore.Blazor.Test.Helpers`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/dev/test/shared/TestRenderer.cs))
+For unit tests, Blazor currently uses a *test renderer* (`Microsoft.AspNetCore.Blazor.Test.Helpers`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/test/shared/TestRenderer.cs))
