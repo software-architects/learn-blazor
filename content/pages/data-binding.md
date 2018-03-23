@@ -2,7 +2,7 @@
 title = "Data Binding"
 weight = 20
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-15
+date = 2018-03-23
 +++
 
 {{% notice note %}}
@@ -16,6 +16,8 @@ If you know [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor
 I have been doing quite a lot of Angular work. Therefore, I added some comments about how the data binding scenarios relate to Angular constructs that you maybe know.
 
 ```cs
+@page "/one-way-data-binding"
+
 <!-- Use this button to trigger changes in the source values -->
 <button @onclick(ChangeValues)>Change values</button>
 
@@ -80,6 +82,8 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 Blazor already supports two-way data binding using `@bind`. The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor only supports string and boolean types for `@bind`. If you need other types (e.g. numbers), you need to provide getter and setter from/to string.
 
 ```cs
+@page "/two-way-data-binding"
+
 <p>
     Enter your name: <input type="text" @bind(Name)><br />
     What is your age? <input type="number" @bind(Age)><br />
@@ -113,6 +117,7 @@ Blazor already supports two-way data binding using `@bind`. The following exampl
 Blazor detects a necessary UI refresh automatically in many scenarios (e.g. after button click). However, there are situations in which you want to trigger a UI refresh manually. Use the `BlazorComponent.StateHasChanged` method for that as shown in the following sample. It changes the application's state using a timer.
 
 ```cs
+@page "/manual-refresh"
 @using System.Threading;
 
 <h1>@Count</h1>
@@ -130,9 +135,9 @@ Blazor detects a necessary UI refresh automatically in many scenarios (e.g. afte
             {
                 Count--;
 
-                // Note that the following line is necessary because otherwise
-                // Blazor would not recognize the state change and not refresh the UI
-                this.StateHasChanged();
+            // Note that the following line is necessary because otherwise
+            // Blazor would not recognize the state change and not refresh the UI
+            this.StateHasChanged();
             }
         }), null, 1000, 1000);
     }
@@ -144,6 +149,8 @@ Blazor detects a necessary UI refresh automatically in many scenarios (e.g. afte
 At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, the Blazor code contains a lot of *TODO* comments regarding events, so hopefully more is to come ;-)
 
 ```cs
+@page "/event-binding"
+
 <!-- Note that Console.WriteLine goes to the browsers console -->
 
 <button @onclick(Clicked)>Click me</button>
@@ -151,17 +158,24 @@ At the time or writing, event binding is quite limited in Blazor. Just `@onclick
 
 <input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
 
+<ChildComponent OnSomeEvent=@ChildEventClicked />
+
 @functions {
     private void Clicked()
     {
         Console.WriteLine("Hello World");
+    }
+
+    private void ChildEventClicked()
+    {
+        Console.WriteLine("Child event clicked");
     }
 }
 ```
 
 Components can offer callbacks that parent components can use to react on events raised by their child components. Imagine the following child component:
 
-```
+```cs
 <button @onclick(OnClick)>Click me (child component)</button>
 
 @functions {
@@ -178,7 +192,7 @@ The parent component can handle on `OnSomeEvent` like this (Note that the typeca
 
 ```cs
 ...
-<ChildComponent OnSomeEvent=ChildEventClicked() />
+<ChildComponent OnSomeEvent=@ChildEventClicked />
 
 @functions {
     ...

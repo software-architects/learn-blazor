@@ -2,7 +2,7 @@
 title = "Lifecycle Methods"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-09
+date = 2018-03-23
 +++
 
 {{% notice note %}}
@@ -11,23 +11,29 @@ date = 2018-03-09
 
 ## Introduction
 
-If you create a Blazor page (*.cshtml*), Blazor will generate a C# class (see *obj/Debug/netstandard2.0/BlazorRazorComponents.g.cs*) from it. It is derived from `Microsoft.AspNetCore.Blazor.Components.BlazorComponent` ([source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/BlazorComponent.cs)).
+If you create a Blazor page (*.cshtml*), Blazor will generate a C# class (see *./obj/Debug/netstandard2.0/Pages*) from it. It is derived from `Microsoft.AspNetCore.Blazor.Components.BlazorComponent` ([source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/BlazorComponent.cs)). The class offers a bunch of virtual methods that you can override.
 
-The class offers a bunch of virtual methods that you can override.
+{{% notice note %}}
+The fact that Blazor turns your *.cshtml* templates into C# classes is important. The templates do not exist at runtime. Blazor just deals with ordinary .NET types.
+{{% /notice %}}
+
+Some lifecycle hooks exist in a synchronous and an asynchronous version (e.g. `OnInit` and `OnInitAsync`). Make sure to use the asynchronous version if you need to perform asynchronous initialization tasks. This is important because Blazor will re-render the page once your asynchronous initialization finished and it will handle potential exceptions correctly.
 
 ## Methods to Override
 
 ### `OnInit` and `OnInitAsync`
 
-`OnInit` and `OnInitAsync` are invoked when the component is ready to start, having received its initial parameters from its parent in the render tree. Use the asynchronous version if you need to perform asynchronous initialization tasks.
+`OnInit` and `OnInitAsync` are invoked when the component is ready to start, having received its initial parameters from its parent in the render tree.
 
-### `OnParametersSet`
+### `OnParametersSet` and `OnParametersSetAsync`
 
-`OnParametersSet` is invoked when the component has received parameters from its parent in the render tree, and the incoming values have been assigned to properties.
+`OnParametersSet` and `OnParametersSetAsync` is invoked when the component has received parameters from its parent in the render tree, and the incoming values have been assigned to properties. Note that these functions are also called during the component's first initialization (after `OnInit`).
+
+If you need to perform some tasks *before* parameters are set, you can override the virtual `SetParameters` method. However, make sure to call the base class' implementation of `Microsoft.AspNetCore.Blazor.Components.BlazorComponent`.
 
 ### `ShouldRender`
 
-You can override `ShouldRender` to suppress refreshing of the UI. If your implementation returns `true`, UI is refreshed. Otherwise, changes are not propagated to the UI.
+You can override `ShouldRender` to suppress refreshing of the UI. If your implementation returns `true`, UI is refreshed. Otherwise, changes are not propagated to the UI. Note that an *initial* rendering is always performed, independent of the return value of `ShouldRender`.
 
 ## Implementing `IDisposable`
 
@@ -86,7 +92,9 @@ The following sample defines a Blazor page that overrides lifecycle methods and 
 
 To test our code, we can write the following parent component. Note that it changes the parameter `Greeting` whenever you click on the button. Note that `Name` is bound to `Initialization.Greeting`.
 
-```
+```cs
+@page "/initialization-parent"
+
 <h1>Page with Parameters</h1>
 
 <button type="button" @onclick(SwitchName) >Switch Name</button>
