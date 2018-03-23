@@ -61,3 +61,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 If you use different webservers, the configuration settings will be different but the general concept is the same. The [*Webserver for Chrome*](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb/related?utm_source=chrome-app-launcher-info-dialog) for instance offers rewrite options for Single Page Apps in its advanced options:
 
 ![Settings Webserver for Chrome](/images/getting-started/webserver-for-chrome-settings.png)
+
+## GitHub Pages
+
+[GitHub Pages](https://pages.github.com/) can also be used to host Single Page Apps like Blazor. You can find a description of the necessary steps to make routing work e.g. [on this website](http://spa-github-pages.rafrex.com/).
