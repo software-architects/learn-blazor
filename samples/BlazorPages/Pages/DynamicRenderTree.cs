@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Blazor.RenderTree;
 
 namespace BlazorPages.Pages
 {
+    [Route("/dynamic-render-tree")]
     public class DynamicRenderTree : BlazorComponent
     {
         protected override void BuildRenderTree(RenderTreeBuilder builder)

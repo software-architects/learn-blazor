@@ -1,11 +1,13 @@
-﻿<!-- Note that Console.WriteLine goes to the browsers console -->
+﻿@page "/event-binding"
+
+<!-- Note that Console.WriteLine goes to the browsers console -->
 
 <button @onclick(Clicked)>Click me</button>
 <button @onclick(() => Console.WriteLine("Hello World"))>Click me</button>
 
 <input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
 
-<ChildComponent OnSomeEvent=ChildEventClicked() />
+<ChildComponent OnSomeEvent=@ChildEventClicked />
 
 @functions {
     private void Clicked()
