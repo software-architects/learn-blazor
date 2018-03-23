@@ -1,0 +1,13 @@
+﻿@page "/navigate-in-code"
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+<button @onclick(Navigate)>Click me to navigate to another page</button>
+
+<MainMenu />
+
+@functions {
+    private void Navigate()
+    {
+        UriHelper.NavigateTo("/hello-world");
+    }
+}

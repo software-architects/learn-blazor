@@ -122,3 +122,27 @@ You can add query parameters using the `IUriHelper` [default service](https://le
     }
 }
 ```
+
+## Navigate in Code
+
+`IUriHelper` can also be used to trigger navigation in code. The following example demonstrates how to navigate when the user clicks a button:
+
+```cs
+@page "/navigate-in-code"
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+<button @onclick(Navigate)>Click me to navigate to another page</button>
+
+<MainMenu />
+
+@functions {
+    private void Navigate()
+    {
+        UriHelper.NavigateTo("/hello-world");
+    }
+}
+```
+
+## Future Enhancements
+
+Note that the Blazor teams tracks future enhancements of the router [in this GitHub issue](https://github.com/aspnet/Blazor/issues/293).
