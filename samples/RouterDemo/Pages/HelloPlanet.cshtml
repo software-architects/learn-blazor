@@ -1,0 +1,14 @@
+﻿@page "/hello-planet/{Planet}"
+
+<h1>Hello @Planet!</h1>
+
+<MainMenu />
+
+@functions {
+    public string Planet { get; set; }
+
+    protected override void OnInit()
+    {
+        Console.WriteLine(Planet);
+    }
+}
