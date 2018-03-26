@@ -1,0 +1,43 @@
+﻿@page "/interop-basics"
+@using Microsoft.AspNetCore.Blazor.Browser.Interop
+@using RestApi.Shared
+@inject HttpClient Http
+
+<h1>Interop Basics</h1>
+
+<button @onclick(CallJS)>Call JavaScript</button>
+<script>
+    // Register a very simple JavaScript function that just prints
+    // the input parameter to the browser's console
+    Blazor.registerFunction('say', (data) => {
+        console.dir(data);
+
+        // Your function currently has to return something. For demo
+        // purposes, we just return `true`.
+        return true;
+    });
+</script>
+
+@functions {
+    private async void CallJS()
+    {
+        // Simple function call with a basic data type
+        if (RegisteredFunction.Invoke<bool>("say", "Hello"))
+        {
+            // This line will be reached as our `say` function returns true
+            Console.WriteLine("Returned true");
+        }
+
+        // Call our function with an object. It will be serialized (JSON),
+        // passed to JS-part of Blazor and deserialized into a JavaScript
+        // object again.
+        RegisteredFunction.Invoke<bool>("say", new { greeting = "Hello" });
+
+        // Get some demo data from a web service and pass it to our function.
+        // Again, it will be turned to JSON and back during the function call.
+        // Not that currently, you have to use a `List<T>`. An array would currently
+        // not be transfered correctly.
+        var customers = await Http.GetJsonAsync<List<Customer>>("/api/Customer");
+        RegisteredFunction.Invoke<bool>("say", customers);
+    }
+}

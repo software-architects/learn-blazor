@@ -1,0 +1,43 @@
+﻿@page "/auto-complete"
+@using RestApi.Shared
+@using Microsoft.AspNetCore.Blazor.Browser.Interop
+@using System.Linq
+@inject HttpClient Http
+
+<h1>Autocomplete Demo</h1>
+
+<input id="customers" style="width: 300px" />
+<script>
+    Blazor.registerFunction('fillAutocomplete', (customers) => {
+        console.log($("#customers"));
+        $("#customers").kendoAutoComplete({
+            dataSource: customers,
+            filter: "startswith",
+            placeholder: "Select customer...",
+            separator: ", "
+        });
+
+        return true;
+    });
+</script>
+
+@functions {
+    protected override async Task OnInitAsync()
+    {
+        await RefreshCustomerList();
+    }
+
+    private async Task RefreshCustomerList()
+    {
+        // Call a web api to get some data
+        var customers = await Http.GetJsonAsync<List<Customer>>("/api/Customer");
+
+        // Here you can execute any C# business logic. For demo purposes, we 
+        // project the result into a list of strings.
+        var projectedCustomers = customers
+            .Select(c => $"{c.LastName}, {c.FirstName}")
+            .ToList();
+
+        RegisteredFunction.Invoke<bool>("fillAutocomplete", projectedCustomers);
+    }
+}
