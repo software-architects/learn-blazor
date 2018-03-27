@@ -1,7 +1,7 @@
 +++
 title = "JavaScript Interop" 
 weight = 30 
-lastModifierDisplayName = "christian.schwendtner@gmx.net, rainer@timecockpit.com" 
+lastModifierDisplayName = "rainer@timecockpit.com, christian.schwendtner@gmx.net" 
 date = 2018-03-27
 +++
 
