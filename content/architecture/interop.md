@@ -29,8 +29,6 @@ When Blazor wants to invoke such a function (e.g. `renderBatch` to update the UI
 
 ## Calling a JavaScript function from C\#
 
-Let's assume that we want to call a custom JavaScript function named `strlen` from C#.
-
 To use an JavaScript function from our Blazor app, we have to register it on the JavaScript side by name using `Blazor.registerFunction` (of course you can use TypeScript to write your JavaScript function too). On the C# side we can call this function by using `RegisteredFunction.Invoke`. Here is a code example with comments describing some details:
 
 ```cs
@@ -120,13 +118,13 @@ let arg1AsDotNetString = Blazor.platform.toDotNetString('Hello ');
 let arg2AsDotNetString = Blazor.platform.toDotNetString('Blazor ');
 let arg3AsDotNetString = Blazor.platform.toDotNetString('(from JS)!');
 
-let result = Blazor.platform.callMethod(concatMethod, null, [
+let resultAsDotNetString = Blazor.platform.callMethod(concatMethod, null, [
     arg1AsDotNetString,
     arg2AsDotNetString,
     arg3AsDotNetString
 ]);
 
-var resultAsJavaScriptString = Blazor.platform.toJavaScriptString(result);
+let resultAsJavaScriptString = Blazor.platform.toJavaScriptString(resultAsDotNetString);
 ```
 
 ## Integrated Sample
