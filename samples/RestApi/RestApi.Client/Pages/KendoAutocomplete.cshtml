@@ -9,9 +9,25 @@
 <input id="customers" style="width: 300px" />
 <script>
     Blazor.registerFunction('fillAutocomplete', (customers) => {
-        console.log($("#customers"));
+        // Fill Kendo Autocomplete
         $("#customers").kendoAutoComplete({
             dataSource: customers,
+            select: (e) => {
+                // Call C# when user selects an item in Kendo's Autocomplete
+                const assemblyName = 'RestApi.Client';
+                const namespace = 'RestApi.Client.Pages';
+                const typeName = 'KendoAutocomplete';
+                const methodName = 'SelectCustomer';
+
+                const concatMethod = Blazor.platform.findMethod(
+                    assemblyName,
+                    namespace,
+                    typeName,
+                    methodName
+                );
+
+                let result = Blazor.platform.callMethod(concatMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
+            },
             filter: "startswith",
             placeholder: "Select customer...",
             separator: ", "
@@ -39,5 +55,10 @@
             .ToList();
 
         RegisteredFunction.Invoke<bool>("fillAutocomplete", projectedCustomers);
+    }
+
+    public static void SelectCustomer(string customerName)
+    {
+        Console.WriteLine($"Select customer '{customerName}'");
     }
 }
