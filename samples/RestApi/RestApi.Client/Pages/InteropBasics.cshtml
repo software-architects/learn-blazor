@@ -35,8 +35,6 @@
 
         // Get some demo data from a web service and pass it to our function.
         // Again, it will be turned to JSON and back during the function call.
-        // Not that currently, you have to use a `List<T>`. An array would currently
-        // not be transfered correctly.
         var customers = await Http.GetJsonAsync<List<Customer>>("/api/Customer");
         RegisteredFunction.Invoke<bool>("say", customers);
     }

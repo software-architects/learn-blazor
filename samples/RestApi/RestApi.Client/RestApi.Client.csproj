@@ -14,13 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\RestApi.Shared\RestApi.Shared.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <BlazorGenerate Remove="Pages\KendoAutocomplete.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <BlazorGenerate Remove="Pages\InteropBasics.cshtml" />
-  </ItemGroup>
-
 </Project>
