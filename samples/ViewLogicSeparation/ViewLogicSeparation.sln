@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27512.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewLogicSeparation", "ViewLogicSeparation\ViewLogicSeparation.csproj", "{79A838C8-9EE1-40A4-AF40-36FAFBE4570C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79A838C8-9EE1-40A4-AF40-36FAFBE4570C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A838C8-9EE1-40A4-AF40-36FAFBE4570C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A838C8-9EE1-40A4-AF40-36FAFBE4570C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A838C8-9EE1-40A4-AF40-36FAFBE4570C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FFC320D6-2ED0-439E-8C18-6312E54609DD}
+	EndGlobalSection
+EndGlobal

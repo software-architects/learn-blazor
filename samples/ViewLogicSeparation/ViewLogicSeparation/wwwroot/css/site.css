@@ -1,0 +1,9 @@
+﻿body {
+    margin: 15px;
+    max-width: 50%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.result {
+    margin-top: 30px;
+}
