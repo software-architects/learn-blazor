@@ -1,0 +1,20 @@
+﻿@using System.Threading;
+
+<p>Child: @CurrentValue</p>
+
+@functions {
+    private int CurrentValue { get; set; }
+
+    protected override void OnInit()
+    {
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+            CurrentValue++;
+
+            // Note that we have to manually refresh the UI although
+            // our parent component calls `StateHasChanged`, too. The
+            // parent's call does not auto-refresh its children.
+            StateHasChanged();
+        }), null, 1000, 1000);
+    }
+}

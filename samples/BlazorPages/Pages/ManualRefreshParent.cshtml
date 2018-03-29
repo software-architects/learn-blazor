@@ -1,0 +1,22 @@
+﻿@page "/manual-refresh-parent"
+@using System.Threading;
+
+<p>Parent: @CurrentValue</p>
+<ManualRefreshChild></ManualRefreshChild>
+
+@functions {
+    private int CurrentValue { get; set; }
+
+    protected override void OnInit()
+    {
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+            CurrentValue++;
+
+            // Note that we have to manually refresh the UI although
+            // our child component calls `StateHasChanged`, too. The
+            // child's call does not auto-refresh its parents.
+            StateHasChanged();
+        }), null, 5000, 5000);
+    }
+}
