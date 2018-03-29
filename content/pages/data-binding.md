@@ -144,6 +144,8 @@ Blazor detects a necessary UI refresh automatically in many scenarios (e.g. afte
 }
 ```
 
+Note that `StateHasChanged` only triggers a UI refresh for the current component. If does not automatically refresh its child or parent components.
+
 ## Event Binding
 
 At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, the Blazor code contains a lot of *TODO* comments regarding events, so hopefully more is to come ;-)
