@@ -2,7 +2,7 @@
 title = "Dependency Injection"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-23
+date = 2018-03-29
 +++
 
 ## Introduction
@@ -84,7 +84,7 @@ namespace Architecture
 
 ## Injecting Services
 
-To inject a service in a component, use the `@inject` keyword as shown in the following sample. Technically, this generates a property with the given name and type. The property is decorated with the attribute `Microsoft.AspNetCore.Blazor.Components.InjectAttribute` so that Blazor's component factory (`Microsoft.AspNetCore.Blazor.Components.ComponentFactory`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/ComponentFactory.cs)) knows that it has to fill it when creating the component.
+To inject a service in a component, use the `@inject` keyword as shown in the following sample. Technically, this generates a property with the given name and type. The property is decorated with the attribute `Microsoft.AspNetCore.Blazor.Components.InjectAttribute` so that Blazor's component factory (`Microsoft.AspNetCore.Blazor.Components.ComponentFactory`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/ComponentFactory.cs)) knows that it has to fill it when creating the component. The `InjectAttribute` should not be used outside of Blazor components. If you need dependency injection e.g. in services, use constructor injection as shown above in the constructor of the `Repository` class.
 
 ```cs
 @page "/"
@@ -101,7 +101,7 @@ To inject a service in a component, use the `@inject` keyword as shown in the fo
     }
 </ul>
 
-@functions { 
+@functions {
     private IReadOnlyList<Customer> Customers;
 
     protected override async Task OnInitAsync()

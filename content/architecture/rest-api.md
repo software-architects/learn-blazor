@@ -28,7 +28,7 @@ Developers who are used to writing C# code in ASP.NET will find it very simple t
 }
 ```
 
-Note that we are using [dependency injection](dependency-injection) to get an instance of the `System.Net.Http.HttpClient` class. Once we have it, it is business as usual.
+Note that we are using [dependency injection](../dependency-injection/) to get an instance of the `System.Net.Http.HttpClient` class. Once we have it, it is business as usual.
 
 ## What Happens in the Background
 
