@@ -57,6 +57,8 @@ Blazor components can implement `IDisposable`. If they do, the [router](../route
 
 The following sample defines a Blazor page that overrides lifecycle methods and adds log messages whenever they are called. Additionally, it defines a parameter that can be set by parent components.
 
+*Initialization.cshtml*
+
 ```cs
 <p>Hello, @Name!</p>
 
@@ -90,7 +92,9 @@ The following sample defines a Blazor page that overrides lifecycle methods and 
 }
 ```
 
-To test our code, we can write the following parent component. Note that it changes the parameter `Greeting` whenever you click on the button. Note that `Name` is bound to `Initialization.Greeting`.
+To test our code, we can write the following parent component. Note that it changes the parameter `Greeting` whenever you click on the button. Note that `Name` is bound to `Initialization.Name`.
+
+*InitializationParent.cshtml*
 
 ```cs
 @page "/initialization-parent"
