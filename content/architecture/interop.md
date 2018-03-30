@@ -77,7 +77,9 @@ To use an JavaScript function from our Blazor app, we have to register it on the
 
 The first parameter to `RegisteredFunction.Invoke` is the name of the JavaScript function we want to invoke, followed by the arguments of the target JavaScript function. The type parameter of `RegisteredFunction.Invoke` specifies the return type of the called function.
 
-Remark: There are two ways to call a *registered* JavaScript function from Blazor: `RegisteredFunction.Invoke` and `RegisteredFunction.InvokeUnmarshalled` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Interop/RegisteredFunction.cs)). The first function passes the arguments (and the return value) using JSON and frees us from the need to deal with low level handling of memory and data structures on the JavaScript side, whereas the latter leaves this to us.
+There are two ways to call a *registered* JavaScript function from Blazor: `RegisteredFunction.Invoke` and `RegisteredFunction.InvokeUnmarshalled` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Interop/RegisteredFunction.cs)). The first function passes the arguments (and the return value) using JSON and frees us from the need to deal with low level handling of memory and data structures on the JavaScript side, whereas the latter leaves this to us.
+
+JavaScrip interop of Blazor does not change the casing of members when turning data into JSON. Therefore a C# property called `SomeValue` is *not* turned into `someValue` in JavaScript and vice versa.
 
 ## Calling a C#/.NET method from JavaScript
 
