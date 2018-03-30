@@ -11,7 +11,7 @@ date = 2018-03-23
 
 ## Introduction
 
-Blazor comes with a client-side router (`Microsoft.AspNetCore.Blazor.Routing.Router`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Routing/Router.cs). At the time or writing, the router is quite limited compared to e.g. Angular's router. However, it already contains all you need to create basic web apps that consist of multiple pages.
+Blazor comes with a client-side router (`Microsoft.AspNetCore.Blazor.Routing.Router`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Routing/Router.cs). At the time of writing, the router is quite limited compared to e.g. Angular's router. However, it already contains all you need to create basic web apps that consist of multiple pages.
 
 If you create a new Blazor app, the router is configured in *App.cshtml*:
 
@@ -43,7 +43,7 @@ Components can have multiple routes on which they are available. If you need tha
 <h1>Page1</h1>
 ```
 
-Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{Planet}` would be such a parameter. Parameters are assigned to properties if the component. Here is an example for a simple template with a route parameter:
+Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{Planet}` would be such a parameter. Parameters are assigned to properties of the component. Here is an example for a simple template with a route parameter:
 
 ```cs
 @page "/hello-planet/{Planet}"
