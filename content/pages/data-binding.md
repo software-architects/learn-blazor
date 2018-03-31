@@ -112,6 +112,53 @@ Blazor already supports two-way data binding using `@bind`. The following exampl
 }
 ```
 
+## Bind Value to Child Component
+
+You can use data binding for communication between components. Here is an example that demonstrates how to bind a value in a parent component to a child component. The child component uses to value to generate a list of value (in practice this could be e.g. due to a web api response).
+
+*Parent:*
+
+```cs
+...
+<ManualRefreshChild NumberOfElements=@CurrentValue></ManualRefreshChild>
+...
+@functions {
+    private int CurrentValue { get; set; }
+    ...
+}
+```
+
+*Child:*
+
+```cs
+@using System.Collections.Generic
+...
+<p>You requested @NumberOfElements elements. Here they are:</p>
+<ul>
+    @foreach (var n in Numbers)
+    {
+        <li>@n</li>
+    }
+</ul>
+...
+@functions {
+    ...
+    public int NumberOfElements { get; set; }
+
+    private IEnumerable<int> Numbers
+    {
+        get
+        {
+            for (var i = 0; i < NumberOfElements; i++)
+            {
+                yield return i;
+            }
+        }
+    }
+    ...
+}
+```
+
 ## Manually Trigger UI Refresh
 
 Blazor detects a necessary UI refresh automatically in many scenarios (e.g. after button click). However, there are situations in which you want to trigger a UI refresh manually. Use the `BlazorComponent.StateHasChanged` method for that as shown in the following sample. It changes the application's state using a timer.

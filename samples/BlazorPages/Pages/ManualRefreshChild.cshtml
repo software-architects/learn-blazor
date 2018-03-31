@@ -15,16 +15,7 @@
 @functions {
     private int CurrentValue { get; set; }
 
-    private int numberOfElements;
-    public int NumberOfElements
-    {
-        get => numberOfElements;
-        set
-        {
-            numberOfElements = value;
-            StateHasChanged();
-        }
-    }
+    public int NumberOfElements { get; set; }
 
     private IEnumerable<int> Numbers
     {
