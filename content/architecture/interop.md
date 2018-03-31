@@ -192,14 +192,14 @@ Next, let's look at the C# part demonstrating the JavaScript interop:
                 const typeName = 'KendoAutocomplete';
                 const methodName = 'SelectCustomer';
 
-                const concatMethod = Blazor.platform.findMethod(
+                const selectedCustomerMethod = Blazor.platform.findMethod(
                     assemblyName,
                     namespace,
                     typeName,
                     methodName
                 );
 
-                let result = Blazor.platform.callMethod(concatMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
+                let result = Blazor.platform.callMethod(selectedCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
             },
             filter: "startswith",
             placeholder: "Select customer...",
