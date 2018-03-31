@@ -1,9 +1,41 @@
 ﻿@using System.Threading;
+@using System.Collections.Generic
 
 <p>Child: @CurrentValue</p>
 
+<hr />
+<p>You requested @NumberOfElements elements. Here they are:</p>
+<ul>
+    @foreach (var n in Numbers)
+    {
+        <li>@n</li>
+    }
+</ul>
+
 @functions {
     private int CurrentValue { get; set; }
+
+    private int numberOfElements;
+    public int NumberOfElements
+    {
+        get => numberOfElements;
+        set
+        {
+            numberOfElements = value;
+            StateHasChanged();
+        }
+    }
+
+    private IEnumerable<int> Numbers
+    {
+        get
+        {
+            for (var i = 0; i < NumberOfElements; i++)
+            {
+                yield return i;
+            }
+        }
+    }
 
     protected override void OnInit()
     {

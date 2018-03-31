@@ -2,7 +2,7 @@
 @using System.Threading;
 
 <p>Parent: @CurrentValue</p>
-<ManualRefreshChild></ManualRefreshChild>
+<ManualRefreshChild NumberOfElements=@CurrentValue></ManualRefreshChild>
 
 @functions {
     private int CurrentValue { get; set; }
