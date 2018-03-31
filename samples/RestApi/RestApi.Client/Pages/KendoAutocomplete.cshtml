@@ -19,14 +19,14 @@
                 const typeName = 'KendoAutocomplete';
                 const methodName = 'SelectCustomer';
 
-                const concatMethod = Blazor.platform.findMethod(
+                const selectCustomerMethod = Blazor.platform.findMethod(
                     assemblyName,
                     namespace,
                     typeName,
                     methodName
                 );
 
-                let result = Blazor.platform.callMethod(concatMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
+                let result = Blazor.platform.callMethod(selectCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
             },
             filter: "startswith",
             placeholder: "Select customer...",
