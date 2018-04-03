@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DependencyInjection.Pages;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,7 +28,9 @@ namespace DependencyInjection.Services
 
         // Note that the constructor gets an HttpClient via dependency
         // injection. HttpClient is a default service offered by Blazor.
-        public Repository(HttpClient client)
+        // Note that additional parameters are ok if you specify default
+        // value for them.
+        public Repository(HttpClient client, string something = "dummy")
         {
             // In practice, we would store the HttpClient and use it
             // to get customers via e.g. a RESTful Web API

@@ -1,0 +1,15 @@
+﻿@page "/lifetime2"
+@inject MyTransientService Transient
+@inject MySingletonService Singleton
+@inject MyScopedService Scoped
+
+<ul>
+    <li>@Singleton.Name @Singleton.GetHashCode()</li>
+    <li>@Transient.Name @Transient.GetHashCode()</li>
+    <li>@Scoped.Name @Scoped.GetHashCode()</li>
+</ul>
+
+<a href="lifetime1">Other lifetime demo page</a>
+
+@functions { 
+}
