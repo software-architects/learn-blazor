@@ -2,7 +2,7 @@
 title = "Data Binding"
 weight = 20
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-23
+date = 2018-04-10
 +++
 
 {{% notice note %}}
@@ -20,6 +20,7 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 
 <!-- Use this button to trigger changes in the source values -->
 <button @onclick(ChangeValues)>Change values</button>
+<button @onclick(() => ChangeValues())>Change values</button>
 
 <!-- 
     Simple interpolation
@@ -79,20 +80,52 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 
 ## Two-Way Data Binding
 
-Blazor already supports two-way data binding using `@bind`. The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor only supports string and boolean types for `@bind`. If you need other types (e.g. numbers), you need to provide getter and setter from/to string.
+Blazor already supports two-way data binding using `bind=...` (new syntax) or `@bind()` (old syntax). The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor supports the following types for two-way data binding:
+
+* `int`
+* `string`
+* `DateTime`
+* Enumerations
+* `boolean`
+
+If you need other types (e.g. decimal), you need to provide getter and setter from/to a supported type.
+
+The following example demonstrates different binding scenarios. The comments in the code describe details about the used binding mechanisms:
 
 ```cs
 @page "/two-way-data-binding"
 
 <p>
-    Enter your name: <input type="text" @bind(Name)><br />
-    What is your age? <input type="number" @bind(Age)><br />
-    Are you an administrator? <input type="checkbox" @bind(IsAdmin)>
+    @* Note the old format for data binding, prefer new format (see below) *@
+    Enter your name: <input type="text" @bind(Name) /><br />
+
+    @* Note the new format for data binding to numeric properties *@
+    What is your age? <input type="number" bind="Age" /><br />
+
+    @* Note how to pass a format for DateTime *@
+    What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
+    What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
+    What is your birthday (German date format with old syntax)? <input type="text" @bind(Birthday, "dd.MM.yyyy") /><br />
+
+    @* Data binding for checkboxes with boolean properties *@
+    Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />
+
+    @* Data binding for selects with enums *@
+    <select id="select-box" bind="TypeOfEmployee">
+        <option value=@EmployeeType.Employee>@EmployeeType.Employee.ToString()</option>
+        <option value=@EmployeeType.Contractor>@EmployeeType.Contractor.ToString()</option>
+        <option value=@EmployeeType.Intern>@EmployeeType.Intern.ToString()</option>
+    </select>
+
+    @*
+        The following line would not work because decimal is not supported
+        What is your salery? <input type="number" bind="Salary" /><br />
+    *@
 </p>
 
 <h2>Hello, @Name!</h2>
 
-<p>You are @Age years old.</p>
+<p>You are @Age years old. You are born on the @Birthday. You are @TypeOfEmployee.</p>
 
 @if (IsAdmin)
 {
@@ -100,17 +133,19 @@ Blazor already supports two-way data binding using `@bind`. The following exampl
 }
 
 @functions {
+    private enum EmployeeType { Employee, Contractor, Intern };
+    private EmployeeType TypeOfEmployee { get; set; } = EmployeeType.Employee;
+
     private string Name { get; set; } = "Tom";
     private bool IsAdmin { get; set; } = true;
+    private int Age { get; set; } = 33;
+    public DateTime Birthday { get; set; } = DateTime.Today;
 
-    private int age = 33;
-    private string Age
-    {
-        get => age.ToString();
-        set => Int32.TryParse(value, out age);
-    }
+    public decimal Salary { get; set; }
 }
 ```
+
+You find more details in the Blazor GitHub issue [#409](https://github.com/aspnet/Blazor/issues/409).
 
 ## Bind Value to Child Component
 
@@ -195,7 +230,7 @@ Note that `StateHasChanged` only triggers a UI refresh for the current component
 
 ## Event Binding
 
-At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, the Blazor code contains a lot of *TODO* comments regarding events, so hopefully more is to come ;-)
+At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, this is currently chaning. You find more details in the Blazor GitHub issue [#503](https://github.com/aspnet/Blazor/issues/503).
 
 ```cs
 @page "/event-binding"

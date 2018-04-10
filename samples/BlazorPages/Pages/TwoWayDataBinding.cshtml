@@ -1,14 +1,36 @@
 ﻿@page "/two-way-data-binding"
 
 <p>
-    Enter your name: <input type="text" @bind(Name)><br />
-    What is your age? <input type="number" @bind(Age)><br />
-    Are you an administrator? <input type="checkbox" @bind(IsAdmin)>
+    @* Note the old format for data binding, prefer new format (see below) *@
+    Enter your name: <input type="text" @bind(Name) /><br />
+
+    @* Note the new format for data binding to numeric properties *@
+    What is your age? <input type="number" bind="Age" /><br />
+
+    @* Note how to pass a format for DateTime *@
+    What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
+    What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
+    What is your birthday (German date format with old syntax)? <input type="text" @bind(Birthday, "dd.MM.yyyy") /><br />
+
+    @* Data binding for checkboxes with boolean properties *@
+    Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />
+
+    @* Data binding for selects with enums *@
+    <select id="select-box" bind="TypeOfEmployee">
+        <option value=@EmployeeType.Employee>@EmployeeType.Employee.ToString()</option>
+        <option value=@EmployeeType.Contractor>@EmployeeType.Contractor.ToString()</option>
+        <option value=@EmployeeType.Intern>@EmployeeType.Intern.ToString()</option>
+    </select>
+
+    @*
+        The following line would not work because decimal is not supported
+        What is your salery? <input type="number" bind="Salary" /><br />
+    *@
 </p>
 
 <h2>Hello, @Name!</h2>
 
-<p>You are @Age years old.</p>
+<p>You are @Age years old. You are born on the @Birthday. You are @TypeOfEmployee.</p>
 
 @if (IsAdmin)
 {
@@ -16,13 +38,13 @@
 }
 
 @functions {
+    private enum EmployeeType { Employee, Contractor, Intern };
+    private EmployeeType TypeOfEmployee { get; set; } = EmployeeType.Employee;
+
     private string Name { get; set; } = "Tom";
     private bool IsAdmin { get; set; } = true;
+    private int Age { get; set; } = 33;
+    public DateTime Birthday { get; set; } = DateTime.Today;
 
-    private int age = 33;
-    private string Age
-    {
-        get => age.ToString();
-        set => Int32.TryParse(value, out age);
-    }
+    public decimal Salary { get; set; }
 }
