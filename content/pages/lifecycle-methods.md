@@ -101,7 +101,7 @@ To test our code, we can write the following parent component. Note that it chan
 
 <h1>Page with Parameters</h1>
 
-<button type="button" @onclick(SwitchName) >Switch Name</button>
+<button type="button" onclick=@SwitchName>Switch Name</button>
 
 <Initialization Name=@Name/>
 

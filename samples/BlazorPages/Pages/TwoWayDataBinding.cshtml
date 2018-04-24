@@ -1,16 +1,15 @@
 ﻿@page "/two-way-data-binding"
 
 <p>
-    @* Note the old format for data binding, prefer new format (see below) *@
-    Enter your name: <input type="text" @bind(Name) /><br />
+    @* You can bind using @Property or @Field *@
+    Enter your name: <input type="text" bind=@Name /><br />
 
-    @* Note the new format for data binding to numeric properties *@
+    @* Alternatively also using "Property" or "Field" *@
     What is your age? <input type="number" bind="Age" /><br />
 
     @* Note how to pass a format for DateTime *@
     What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
     What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
-    What is your birthday (German date format with old syntax)? <input type="text" @bind(Birthday, "dd.MM.yyyy") /><br />
 
     @* Data binding for checkboxes with boolean properties *@
     Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />

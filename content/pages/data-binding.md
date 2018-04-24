@@ -19,8 +19,8 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 @page "/one-way-data-binding"
 
 <!-- Use this button to trigger changes in the source values -->
-<button @onclick(ChangeValues)>Change values</button>
-<button @onclick(() => ChangeValues())>Change values</button>
+<button onclick=@ChangeValues>Change values</button>
+<button onclick=@(() => ChangeValues())>Change values</button>
 
 <!-- 
     Simple interpolation
@@ -80,7 +80,7 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 
 ## Two-Way Data Binding
 
-Blazor already supports two-way data binding using `bind=...` (new syntax) or `@bind()` (old syntax). The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor supports the following types for two-way data binding:
+Blazor already supports two-way data binding using `bind=...`. The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor supports the following types for two-way data binding:
 
 * `int`
 * `string`
@@ -96,16 +96,15 @@ The following example demonstrates different binding scenarios. The comments in 
 @page "/two-way-data-binding"
 
 <p>
-    @* Note the old format for data binding, prefer new format (see below) *@
-    Enter your name: <input type="text" @bind(Name) /><br />
+    @* You can bind using @Property or @Field *@
+    Enter your name: <input type="text" bind=@Name /><br />
 
-    @* Note the new format for data binding to numeric properties *@
+    @* Alternatively also using "Property" or "Field" *@
     What is your age? <input type="number" bind="Age" /><br />
 
     @* Note how to pass a format for DateTime *@
     What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
     What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
-    What is your birthday (German date format with old syntax)? <input type="text" @bind(Birthday, "dd.MM.yyyy") /><br />
 
     @* Data binding for checkboxes with boolean properties *@
     Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />
@@ -204,7 +203,7 @@ Blazor detects a necessary UI refresh automatically in many scenarios (e.g. afte
 
 <h1>@Count</h1>
 
-<button @onclick(StartCountdown)>Start Countdown</button>
+<button onclick=@StartCountdown>Start Countdown</button>
 
 @functions {
     private int Count { get; set; } = 10;
@@ -230,17 +229,17 @@ Note that `StateHasChanged` only triggers a UI refresh for the current component
 
 ## Event Binding
 
-At the time or writing, event binding is quite limited in Blazor. Just `@onclick` and `@onchange` are supported. However, this is currently chaning. You find more details in the Blazor GitHub issue [#503](https://github.com/aspnet/Blazor/issues/503).
+At the time or writing, event binding is quite limited in Blazor. Just `onclick` and `onchange` are supported. However, this is currently changing. You find more details in the Blazor GitHub issue [#503](https://github.com/aspnet/Blazor/issues/503).
 
 ```cs
 @page "/event-binding"
 
 <!-- Note that Console.WriteLine goes to the browsers console -->
 
-<button @onclick(Clicked)>Click me</button>
-<button @onclick(() => Console.WriteLine("Hello World"))>Click me</button>
+<button onclick=@Clicked>Click me</button>
+<button onclick=@(() => Console.WriteLine("Hello World"))>Click me</button>
 
-<input type="text" @onchange(newValue => Console.WriteLine(newValue)) />
+<input type="text" onchange=@(newValue => Console.WriteLine(newValue)) />
 
 <ChildComponent OnSomeEvent=@ChildEventClicked />
 
@@ -260,7 +259,7 @@ At the time or writing, event binding is quite limited in Blazor. Just `@onclick
 Components can offer callbacks that parent components can use to react on events raised by their child components. Imagine the following child component:
 
 ```cs
-<button @onclick(OnClick)>Click me (child component)</button>
+<button onclick=@OnClick>Click me (child component)</button>
 
 @functions {
     public Action OnSomeEvent { get; set; }

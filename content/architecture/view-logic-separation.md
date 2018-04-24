@@ -49,12 +49,12 @@ One way of separating view and logic is to create a base class. The base class c
 
 <div class="filter">
     <label>Customer Filter:</label>
-    <input type="text" id="customer-filter" @bind(CustomerFilter)
+    <input type="text" id="customer-filter" bind=@CustomerFilter
            placeholder="Customer filter..."><br />
     <!-- Note that we show/hide button based on logic in the base class -->
     @if (CanGetCustomers)
     {
-        <button @onclick(GetCustomers)>Get Customer List...</button>
+        <button onclick=@GetCustomers>Get Customer List...</button>
     }
 </div>
 

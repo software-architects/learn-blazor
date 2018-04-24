@@ -63,7 +63,7 @@ It is not necessary to build the entire component in C#. You can also dynamicall
 
 <p>Lorem ipsum...</p>
 
-<button type="button" @onclick(() => ShouldRender())>
+<button type="button" onclick=@(() => ShouldRender())>
     Trigger rendering (i.e. makes text longer)
 </button>
 

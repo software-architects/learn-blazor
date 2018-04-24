@@ -17,7 +17,7 @@ Developers who are used to writing C# code in ASP.NET will find it very simple t
 @page "/"
 @inject HttpClient Http
 
-<button @onclick(async () => await PrintWebApiResponse())>Print Web API Response</button>
+<button onclick=@(async () => await PrintWebApiResponse())>Print Web API Response</button>
 
 @functions {
     private async Task PrintWebApiResponse()
@@ -55,9 +55,9 @@ The following sample demonstrates the use of a RESTful Web API implemented with 
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<button @onclick(async () => await PrintWebApiResponse())>Print Web API Response</button>
-<button @onclick(async () => await FillWithDemoData())>Fill with demo data</button>
-<button @onclick(async () => await DeleteAllCustomers())>Delete all customers</button>
+<button onclick=@(async () => await PrintWebApiResponse())>Print Web API Response</button>
+<button onclick=@(async () => await FillWithDemoData())>Fill with demo data</button>
+<button onclick=@(async () => await DeleteAllCustomers())>Delete all customers</button>
 
 @if (Customers == null)
 {

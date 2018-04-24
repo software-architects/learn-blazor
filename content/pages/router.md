@@ -131,7 +131,7 @@ You can add query parameters using the `IUriHelper` [default service](https://le
 @page "/navigate-in-code"
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
-<button @onclick(Navigate)>Click me to navigate to another page</button>
+<button onclick=@Navigate>Click me to navigate to another page</button>
 
 <MainMenu />
 
