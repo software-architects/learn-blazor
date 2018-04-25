@@ -1,8 +1,8 @@
 ﻿@page "/one-way-data-binding"
 
 <!-- Use this button to trigger changes in the source values -->
-<button @onclick(ChangeValues)>Change values</button>
-<button @onclick(() => ChangeValues())>Change values</button>
+<button onclick="@ChangeValues">Change values</button>
+<button onclick="@(() => ChangeValues())">Change values</button>
 
 <!--
     Simple interpolation

@@ -7,35 +7,6 @@
 <h1>Autocomplete Demo</h1>
 
 <input id="customers" style="width: 300px" />
-<script>
-    Blazor.registerFunction('fillAutocomplete', (customers) => {
-        // Fill Kendo Autocomplete
-        $("#customers").kendoAutoComplete({
-            dataSource: customers,
-            select: (e) => {
-                // Call C# when user selects an item in Kendo's Autocomplete
-                const assemblyName = 'RestApi.Client';
-                const namespace = 'RestApi.Client.Pages';
-                const typeName = 'KendoAutocomplete';
-                const methodName = 'SelectCustomer';
-
-                const selectCustomerMethod = Blazor.platform.findMethod(
-                    assemblyName,
-                    namespace,
-                    typeName,
-                    methodName
-                );
-
-                let result = Blazor.platform.callMethod(selectCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
-            },
-            filter: "startswith",
-            placeholder: "Select customer...",
-            separator: ", "
-        });
-
-        return true;
-    });
-</script>
 
 @functions {
     protected override async Task OnInitAsync()
