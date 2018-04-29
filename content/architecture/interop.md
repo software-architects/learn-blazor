@@ -39,7 +39,7 @@ To use an JavaScript function from our Blazor app, we have to register it on the
 
 <h1>Interop Basics</h1>
 
-<button @onclick(CallJS)>Call JavaScript</button>
+<button onclick=@CallJS>Call JavaScript</button>
 <script>
     // Register a very simple JavaScript function that just prints
     // the input parameter to the browser's console
