@@ -1,24 +1,24 @@
 ﻿@page "/two-way-data-binding"
 
 <p>
-    @* Note the new format for data binding to numeric properties *@
-    What is your age? <input type="number" bind="Age" /><br />
+    @* Data binding for text *@
+    Enter your name: <input type="text" bind="@Name" /><br />
+
+    @* Data binding for numbers *@
+    What is your age? <input type="number" bind="@Age" /><br />
 
     @* Note how to pass a format for DateTime *@
-    What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
-    What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
+    What is your birthday (culture-invariant default format)? <input type="text" bind="@Birthday" /><br />
+    What is your birthday (German date format)? <input type="text" bind="@Birthday" format-value="dd.MM.yyyy" /><br />
 
     @* Data binding for checkboxes with boolean properties *@
-    Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />
+    Are you an administrator? <input type="checkbox" bind="@IsAdmin" /><br />
 
     @* Data binding for selects with enums *@
-    <select id="select-box" bind="TypeOfEmployee">
+    <select id="select-box" bind="@TypeOfEmployee">
         <option value=@EmployeeType.Employee>@EmployeeType.Employee.ToString()</option>
         <option value=@EmployeeType.Contractor>@EmployeeType.Contractor.ToString()</option>
         <option value=@EmployeeType.Intern>@EmployeeType.Intern.ToString()</option>
-    </select>
-    <select id="select-box" bind="Customers">
-        <option value=@Customers[0]>@Customers[0].Name</option>
     </select>
 
     @*
@@ -37,15 +37,7 @@
 }
 
 @functions {
-    public class Customer
-    {
-        public string Name { get; set; }
-
-    }
-
-    private List<Customer> Customers { get; set; } = new List<Customer> { new Customer { Name = "Dummy" } };
-
-    public enum EmployeeType { Employee, Contractor, Intern };
+    private enum EmployeeType { Employee, Contractor, Intern };
     private EmployeeType TypeOfEmployee { get; set; } = EmployeeType.Employee;
 
     private string Name { get; set; } = "Tom";

@@ -5,18 +5,7 @@
 
 <h1>Interop Basics</h1>
 
-<button @onclick(CallJS)>Call JavaScript</button>
-<script>
-    // Register a very simple JavaScript function that just prints
-    // the input parameter to the browser's console
-    Blazor.registerFunction('say', (data) => {
-        console.dir(data);
-
-        // Your function currently has to return something. For demo
-        // purposes, we just return `true`.
-        return true;
-    });
-</script>
+<button onclick="@CallJS">Call JavaScript</button>
 
 @functions {
     private async void CallJS()

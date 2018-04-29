@@ -22,5 +22,45 @@
     <script src="https://kendo.cdn.telerik.com/2018.1.221/js/kendo.all.min.js"></script>
     <script type="blazor-boot">
     </script>
+    <script>
+        // Register a very simple JavaScript function that just prints
+        // the input parameter to the browser's console
+        Blazor.registerFunction('say', (data) => {
+            console.dir(data);
+
+            // Your function currently has to return something. For demo
+            // purposes, we just return `true`.
+            return true;
+        });
+    </script>
+    <script>
+        Blazor.registerFunction('fillAutocomplete', (customers) => {
+            // Fill Kendo Autocomplete
+            $("#customers").kendoAutoComplete({
+                dataSource: customers,
+                select: (e) => {
+                    // Call C# when user selects an item in Kendo's Autocomplete
+                    const assemblyName = 'RestApi.Client';
+                    const namespace = 'RestApi.Client.Pages';
+                    const typeName = 'KendoAutocomplete';
+                    const methodName = 'SelectCustomer';
+
+                    const selectCustomerMethod = Blazor.platform.findMethod(
+                        assemblyName,
+                        namespace,
+                        typeName,
+                        methodName
+                    );
+
+                    let result = Blazor.platform.callMethod(selectCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
+                },
+                filter: "startswith",
+                placeholder: "Select customer...",
+                separator: ", "
+            });
+
+            return true;
+        });
+    </script>
 </body>
 </html>
