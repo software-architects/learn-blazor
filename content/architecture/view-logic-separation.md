@@ -2,7 +2,7 @@
 title = "View and Logic"
 weight = 40
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-28
+date = 2018-04-29
 +++
 
 {{% notice note %}}

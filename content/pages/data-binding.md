@@ -2,7 +2,7 @@
 title = "Data Binding"
 weight = 20
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-04-10
+date = 2018-04-29
 +++
 
 {{% notice note %}}
