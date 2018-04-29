@@ -1,6 +1,8 @@
-﻿<button @onclick(OnClick)>Click me (child component)</button>
+﻿<p>@Greeting</p>
+<button onclick="@OnClick">Click me (child component)</button>
 
 @functions {
+    public string Greeting { get; set; }
     public Action OnSomeEvent { get; set; }
 
     private void OnClick()

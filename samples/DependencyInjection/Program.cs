@@ -10,12 +10,12 @@ namespace DependencyInjection
     {
         static void Main(string[] args)
         {
-            var serviceProvider = new BrowserServiceProvider(configure =>
+            var serviceProvider = new BrowserServiceProvider(services =>
             {
-                configure.Add(ServiceDescriptor.Transient<IRepository, Repository>());
-                configure.Add(ServiceDescriptor.Transient<MyTransientService, MyTransientService>());
-                configure.Add(ServiceDescriptor.Scoped<MyScopedService, MyScopedService>());
-                configure.Add(ServiceDescriptor.Singleton<MySingletonService, MySingletonService>());
+                services.AddTransient<IRepository, Repository>();
+                services.AddTransient<MyTransientService, MyTransientService>();
+                services.AddScoped<MyScopedService, MyScopedService>();
+                services.AddSingleton<MySingletonService, MySingletonService>();
             });
 
             new BrowserRenderer(serviceProvider).AddComponent<App>("app");
