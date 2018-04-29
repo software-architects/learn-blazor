@@ -1,11 +1,11 @@
 ﻿@page "/one-way-data-binding"
 
 <!-- Use this button to trigger changes in the source values -->
-<button onclick=@ChangeValues>Change values</button>
-<button onclick=@(() => ChangeValues())>Change values</button>
+<button onclick="@ChangeValues">Change values</button>
+<button onclick="@(() => ChangeValues())">Change values</button>
 
 <!--
-    Simple interpolation
+    Simple interpolation.
     In Angular, this would be {{ Count }}
 -->
 <p>Counter: @Count</p>
@@ -43,18 +43,18 @@
 </ul>
 
 @functions {
-private int Count { get; set; } = 0;
-private bool ShowWarning { get; set; } = true;
-private string Background { get; set; } = "red";
-private bool NoteIsActive { get; set; } = true;
-private List<int> Numbers { get; set; } = new List<int> { 1, 2, 3 };
+    private int Count { get; set; } = 0;
+    private bool ShowWarning { get; set; } = true;
+    private string Background { get; set; } = "red";
+    private bool NoteIsActive { get; set; } = true;
+    private List<int> Numbers { get; set; } = new List<int> { 1, 2, 3 };
 
-private void ChangeValues()
-{
-    Count++;
-    ShowWarning = !ShowWarning;
-    Background = Background == "red" ? "green" : "red";
-    NoteIsActive = !NoteIsActive;
-    Numbers.Add(Numbers.Max() + 1);
-}
+    private void ChangeValues()
+    {
+        Count++;
+        ShowWarning = !ShowWarning;
+        Background = Background == "red" ? "green" : "red";
+        NoteIsActive = !NoteIsActive;
+        Numbers.Add(Numbers.Max() + 1);
+    }
 }

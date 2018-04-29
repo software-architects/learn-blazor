@@ -2,14 +2,16 @@
 
 <!-- Note that Console.WriteLine goes to the browsers console -->
 
-<button onclick=@Clicked>Click me</button>
-<button onclick=@(() => Console.WriteLine("Hello World"))>Click me</button>
+<button onclick="@Clicked">Click me</button>
+<button onclick="@(() => Console.WriteLine("Hello World"))">Click me</button>
 
-<input type="text" onchange=@(newValue => Console.WriteLine(newValue)) />
+<input type="text" onchange="@(newValue => Console.WriteLine(newValue))" />
 
-<ChildComponent OnSomeEvent=@ChildEventClicked />
+<ChildComponent Greeting="@Hello" OnSomeEvent=@ChildEventClicked />
 
 @functions {
+    public string Hello { get; set; } = "Hello";
+
     private void Clicked()
     {
         Console.WriteLine("Hello World");
