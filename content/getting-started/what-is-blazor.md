@@ -38,6 +38,10 @@ JavaScript is a powerful language but it has its disadvantages. Some are fixed b
 
 A prototype for statically compiling managed code into one [*.wasm* file](https://developer.mozilla.org/en-US/docs/WebAssembly/Text_format_to_wasm) [already exists](http://www.mono-project.com/news/2018/01/16/mono-static-webassembly-compilation/). It is possible, if not likely, that Blazor will move away from interpreting IL towards the statically compiled model over time.
 
+The following images illustrates the overall architecture of Blazor.
+
+![Blazor Architecture](/images/getting-started/blazor-architecture.jpg)
+
 The following images illustrates the boot process of a Blazor app in Chrome. The app (*counter*) includes Blazor's JavaScript (*blazor.js*). It uses Mono's JavaScript library (*mono.js*) to bootstrap the Mono runtime (*mono.wasm*) in WebAssembly. It then loads the app's DLL (*WebApplication2.dll*) and the DLLs of the .NET Framework.
 
 ![Loading Blazor app in Chrome](/images/getting-started/chrome-load-dlls.png)
