@@ -1,9 +1,5 @@
-﻿@implements ILayoutComponent
+﻿@inherits BlazorLayoutComponent
 
 <div class='container'>
     @Body
 </div>
-
-@functions {
-    public RenderFragment Body { get; set; }
-}

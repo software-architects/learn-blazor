@@ -7,7 +7,7 @@
 
 <input type="text" onchange="@(newValue => Console.WriteLine(newValue))" />
 
-<ChildComponent Greeting="@Hello" OnSomeEvent=@ChildEventClicked />
+<ChildComponent OnSomeEvent="@ChildEventClicked" />
 
 @functions {
     public string Hello { get; set; } = "Hello";
@@ -17,7 +17,7 @@
         Console.WriteLine("Hello World");
     }
 
-    private void ChildEventClicked()
+    public void ChildEventClicked()
     {
         Console.WriteLine("Child event clicked");
     }

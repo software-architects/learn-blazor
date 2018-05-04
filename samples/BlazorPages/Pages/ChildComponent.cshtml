@@ -1,6 +1,7 @@
 <button onclick="@OnClick">Click me (child component)</button>
 
 @functions {
+    [Parameter]
     public Action OnSomeEvent { get; set; }
 
     private void OnClick()
