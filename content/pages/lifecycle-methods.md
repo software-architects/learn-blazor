@@ -71,6 +71,7 @@ The following sample defines a Blazor page that overrides lifecycle methods and 
 
 @functions {
     // Parameter that can be set by parent component
+    [Parameter]
     public string Name { get; set; }
 
     private List<string> log = new List<string>();
