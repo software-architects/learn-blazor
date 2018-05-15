@@ -43,7 +43,7 @@ Components can have multiple routes on which they are available. If you need tha
 <h1>Page1</h1>
 ```
 
-Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{Planet}` would be such a parameter. Parameters are assigned to properties of the component. Here is an example for a simple template with a route parameter:
+Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{Planet}` would be such a parameter. Parameters are assigned to properties of the component. These properties must be annotated with the ParameterAttribute. Here is an example for a simple template with a route parameter:
 
 ```cs
 @page "/hello-planet/{Planet}"
@@ -51,6 +51,7 @@ Route templates can contain parameters. In `@page "/hello-planet/{Planet}"`, `{P
 <h1>Hello @Planet!</h1>
 
 @functions {
+    [Parameter]
     public string Planet { get; set; }
 
     protected override void OnInit()
