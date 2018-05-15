@@ -37,7 +37,7 @@ You can override `ShouldRender` to suppress refreshing of the UI. If your implem
 
 ## Implementing `IDisposable`
 
-Blazor components can implement `IDisposable`. If they do, the [router](../router) disposes the component when the user navigates away from the component. If you implement a component [purely in C#](../dynamic-content/#dynamic-component), you can implement `IDisposable` as usually. If you use a Blazor template, you can use `@implements IDisposable`:
+Blazor components can implement `IDisposable`. If they do, the [router](../router) disposes the component when the user navigates away from the component. If you implement a component [purely in C#](../dynamic-content/#dynamic-component), you can implement `IDisposable` as usual. If you use a Blazor template, you can use `@implements IDisposable`:
 
 ```cs
 ...
