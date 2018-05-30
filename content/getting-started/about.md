@@ -7,7 +7,7 @@ date = 2018-03-23
 
 ## Introduction
 
-I am a passionate web developer. The technology stack I mostly use is ASP.NET Core (C#) on the server and Angular (TypeScript) on the client. Having to constantly switch between two programming languages and frameworks isn't very efficient.Because of this, I started using Node.js on the server some years ago. It allows me to use TypeScript consistently.
+I am a passionate web developer. The technology stack I mostly use is ASP.NET Core (C#) on the server and Angular (TypeScript) on the client. Having to constantly switch between two programming languages and frameworks isn't very efficient. Because of this, I started using Node.js on the server some years ago. It allows me to use TypeScript consistently.
 
 Blazor is tempting for me because it also allows me to focus on one programming language. However, this time I can use my favorite language C#. Awesome :-)
 
