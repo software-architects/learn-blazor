@@ -128,6 +128,9 @@ let resultAsDotNetString = Blazor.platform.callMethod(concatMethod, null, [
 
 let resultAsJavaScriptString = Blazor.platform.toJavaScriptString(resultAsDotNetString);
 ```
+{{% notice note %}}
+Note that if you want to add javascript event listener registrations (e.g. window.addEventListener("orientationchange", function () { //do something }))  you will need to wrap the event listener registrations in a javascript function and call the function from Program.cs using Javascrip Interop described above. This will make sure .NET is loaded before trying to find the C# method via Blazor.platform.findMethod(). 
+{{% /notice %}}
 
 ## Integrated Sample
 
