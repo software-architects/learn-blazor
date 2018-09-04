@@ -9,7 +9,8 @@
 
 @functions {
     // Parameter that can be set by parent component
-    public string Name { get; set; }
+    [Parameter]
+    private string Name { get; set; }
 
     private List<string> log = new List<string>();
     private void Log(string message) => log.Add($"{DateTime.UtcNow.ToString("O")} - {message}");
