@@ -1,6 +1,6 @@
 ﻿@page "/auto-complete"
 @using RestApi.Shared
-@using Microsoft.AspNetCore.Blazor.Browser.Interop
+@using Microsoft.JSInterop
 @using System.Linq
 @inject HttpClient Http
 
@@ -25,7 +25,7 @@
             .Select(c => $"{c.LastName}, {c.FirstName}")
             .ToList();
 
-        RegisteredFunction.Invoke<bool>("fillAutocomplete", projectedCustomers);
+        await JSRuntime.Current.InvokeAsync<bool>("fillAutocomplete", projectedCustomers);
     }
 
     public static void SelectCustomer(string customerName)
