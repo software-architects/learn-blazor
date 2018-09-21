@@ -1,5 +1,5 @@
 ﻿@page "/interop-basics"
-@using Microsoft.AspNetCore.Blazor.Browser.Interop
+@using Microsoft.JSInterop;
 @using RestApi.Shared
 @inject HttpClient Http
 
@@ -11,7 +11,7 @@
     private async void CallJS()
     {
         // Simple function call with a basic data type
-        if (RegisteredFunction.Invoke<bool>("say", "Hello"))
+        if (await JSRuntime.Current.InvokeAsync<bool>("say", "Hello"))
         {
             // This line will be reached as our `say` function returns true
             Console.WriteLine("Returned true");
@@ -20,11 +20,11 @@
         // Call our function with an object. It will be serialized (JSON),
         // passed to JS-part of Blazor and deserialized into a JavaScript
         // object again.
-        RegisteredFunction.Invoke<bool>("say", new { greeting = "Hello" });
+        await JSRuntime.Current.InvokeAsync<bool>("say", new { greeting = "Hello" });
 
         // Get some demo data from a web service and pass it to our function.
         // Again, it will be turned to JSON and back during the function call.
         var customers = await Http.GetJsonAsync<List<Customer>>("/api/Customer");
-        RegisteredFunction.Invoke<bool>("say", customers);
+        await JSRuntime.Current.InvokeAsync<bool>("say", customers);
     }
 }
