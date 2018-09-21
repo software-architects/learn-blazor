@@ -8,8 +8,9 @@
 </ul>
 
 @functions {
-    [Parameter] // Parameter that can be set by parent component
-    string Name { get; set; }
+    // Parameter that can be set by parent component
+    [Parameter]
+    private string Name { get; set; }
 
     private List<string> log = new List<string>();
     private void Log(string message) => log.Add($"{DateTime.UtcNow.ToString("O")} - {message}");
