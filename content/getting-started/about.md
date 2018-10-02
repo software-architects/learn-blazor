@@ -27,6 +27,13 @@ This website is for developers who want to experiment with Blazor at this early 
 
 If you want to execute and experiment with the code shown on this page, download the complete samples [from GitHub](https://github.com/software-architects/learn-blazor/tree/master/samples).
 
+## Slides
+
+Feel free to look at or use my slide deck for Blazor introductions:
+
+* [PPTX](../../slides/Blazor-Intro.pptx)
+* [PDF](../../slides/Blazor-Intro.pdf)
+
 ## Questions?
 
 Do you have questions? Found a bug in this website?
