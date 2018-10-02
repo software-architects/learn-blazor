@@ -2,7 +2,7 @@
 title = "What is Blazor?"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-23
+date = 2018-10-01
 +++
 
 {{% notice note %}}
@@ -44,25 +44,19 @@ The following images illustrates the overall architecture of Blazor.
 
 The following images illustrates the boot process of a Blazor app in Chrome. The app (*counter*) includes Blazor's JavaScript (*blazor.js*). It uses Mono's JavaScript library (*mono.js*) to bootstrap the Mono runtime (*mono.wasm*) in WebAssembly. It then loads the app's DLL (*WebApplication2.dll*) and the DLLs of the .NET Framework.
 
-![Loading Blazor app in Chrome](/images/getting-started/chrome-load-dlls.png)
+![Loading Blazor app in Chrome](/images/getting-started/chrome-load-dlls-061.png)
 
-Blazor uses [Mono's *IL Linker*](https://github.com/mono/linker) to reduce the size of your app. You see the *IL Linker* in action by looking at the *Output* window during build:
+Blazor uses [Mono's *IL Linker*](https://github.com/mono/linker) to reduce the size of your app. You see the *IL Linker* in action by looking at the debug output:
 
 ```txt
-1>------ Build started: Project: RouterDemo, Configuration: Debug Any CPU ------
-1>You are working with a preview version of the .NET Core SDK. You can define the SDK version via a global.json file in the current project. More at https://docs.microsoft.com/en-us/dotnet/core/tools/global-json
-1>RouterDemo -> C:\Code\GitHub\learn-blazor\samples\RouterDemo\bin\Debug\netstandard2.0\RouterDemo.dll
-1>Processing embedded resource linker descriptor: mscorlib.xml
-1>Output action:     Link assembly: RouterDemo, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-1>Output action:     Copy assembly: System.Text.Encodings.Web, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 ...
-1>Output action:   Delete assembly: System.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-1>Output action:     Link assembly: System.Diagnostics.StackTrace, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-1>Output action:   Delete assembly: System.Drawing, Version=2.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+_LinkBlazorApplication:
+    dotnet "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.build\0.6.0-preview1-final\targets\../tools/illink/illink.dll" -l none --verbose --strip-security true --exclude-feature com --exclude-feature sre -v false -c link -u link -b true -d "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.build\0.6.0-preview1-final\targets\../tools/mono/bcl/" -d "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.build\0.6.0-preview1-final\targets\../tools/mono/bcl/Facades/" -o "C:\Code\GitHub\learn-blazor\samples\BlazorPages\obj\Debug\netstandard2.0\blazor\linker/" -x "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.build\0.6.0-preview1-final\targets\BuiltInBclLinkerDescriptor.xml" -x "C:\Code\GitHub\learn-blazor\samples\BlazorPages\obj\Debug\netstandard2.0\blazor\linker.descriptor.xml" -a "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor\0.6.0-preview1-final\lib\netstandard2.0\Microsoft.AspNetCore.Blazor.dll" -a "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.browser\0.6.0-preview1-final\lib\netstandard2.0\Microsoft.AspNetCore.Blazor.Browser.dll" -a "C:\Users\r.stropek\.nuget\packages\microsoft.aspnetcore.blazor.build\0.6.0-preview1-final\lib\netstandard1.0\Microsoft.AspNetCore.Blazor.TagHelperWorkaround.dll" -a "C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection\2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll" -a "C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" -a "C:\Users\r.stropek\.nuget\packages\microsoft.jsinterop\0.6.0-preview1-final\lib\netstandard2.0\Microsoft.JSInterop.dll" -a "C:\Users\r.stropek\.nuget\packages\mono.webassembly.interop\0.6.0-preview1-final\lib\netstandard2.0\Mono.WebAssembly.Interop.dll" -a "C:\Code\GitHub\learn-blazor\samples\BlazorPages\obj\Debug\netstandard2.0\BlazorPages.dll"
+    Processing embedded resource linker descriptor: mscorlib.xml
 ...
-1>Blazor Build result -> 28 files in C:\Code\GitHub\learn-blazor\samples\RouterDemo\bin\Debug\netstandard2.0\dist
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 ```
+
+It is possible to configure the linker on a per-assembly basis ([read more](https://blazor.net/docs/host-and-deploy/configure-linker.html)).
 
 As you can see, Blazor is **not** just a new [Silverlight](https://en.wikipedia.org/wiki/Microsoft_Silverlight). The biggest difference is that it does not require a plugin. You will learn about other differences later.
 
@@ -100,11 +94,11 @@ sequenceDiagram
     JavaScript->>DOM: Change DOM
 {{< /mermaid >}}
 
-1. The C#-part of Blazor creates a [*Render Tree*](https://github.com/aspnet/Blazor/tree/dev/src/Microsoft.AspNetCore.Blazor/RenderTree) which is a tree of UI items.
+1. The C#-part of Blazor creates a [*Render Tree*](https://github.com/aspnet/Blazor/tree/master/src/Microsoft.AspNetCore.Blazor/RenderTree) which is a tree of UI items.
 
-1. The render tree is passed from WebAssembly to the [*Rendering*](https://github.com/aspnet/Blazor/tree/dev/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering) in the JavaScript-part of Blazor. It executes the corresponding DOM changes.
+1. The render tree is passed from WebAssembly to the [*Rendering*](https://github.com/aspnet/Blazor/tree/master/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering) in the JavaScript-part of Blazor. It executes the corresponding DOM changes.
 
-1. Whenever the user interacts with the DOM (e.g. mouse click, enter text, etc.), the JavaScript-part of Blazor [dispatches an event to C#](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRendererEventDispatcher.cs).
+1. Whenever the user interacts with the DOM (e.g. mouse click, enter text, etc.), the JavaScript-part of Blazor [dispatches an event to C#](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRendererEventDispatcher.cs).
 
 1. The event is processed by the C#-code of the web app.
 
@@ -114,8 +108,6 @@ Because Blazor is using the regular browser DOM, all usual DOM mechanisms includ
 
 ### Renderer
 
-In Blazor, *renderers* (classes derived from the abstract class `Microsoft.AspNetCore.Blazor.Rendering.Renderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Rendering/Renderer.cs)) provide mechanisms for rendering hierarchies of *components* (classes implementing `Microsoft.AspNetCore.Blazor.Components.IComponent`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Components/IComponent.cs)), dispatching events to them, and notifying when the user interface is being updated.
+In Blazor, *renderers* (classes derived from the abstract class `Microsoft.AspNetCore.Blazor.Rendering.Renderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor/Rendering/Renderer.cs)) provide mechanisms for rendering hierarchies of *components* (classes implementing `Microsoft.AspNetCore.Blazor.Components.IComponent`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor/Components/IComponent.cs)), dispatching events to them, and notifying when the user interface is being updated.
 
-For running in the browser, Blazor comes with a *browser renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.BrowserRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)).
-
-For unit tests, Blazor currently uses a *test renderer* (`Microsoft.AspNetCore.Blazor.Test.Helpers`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/test/shared/TestRenderer.cs))
+For running in the browser, Blazor comes with a *browser renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.BrowserRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)). For server-side hosting, there is a *remote renderer* (`Microsoft.AspNetCore.Blazor.Browser.Rendering.RemoteRenderer`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Server/Circuits/RemoteRenderer.cs)). For unit tests, Blazor currently uses a *test renderer* (`Microsoft.AspNetCore.Blazor.Test.Helpers`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/test/shared/TestRenderer.cs))

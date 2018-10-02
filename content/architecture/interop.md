@@ -2,7 +2,7 @@
 title = "JavaScript Interop" 
 weight = 30 
 lastModifierDisplayName = "rainer@timecockpit.com, christian.schwendtner@gmx.net" 
-date = 2018-04-29
+date = 2018-10-02
 +++
 
 {{% notice note %}}
@@ -23,13 +23,38 @@ Let's look at the case when Blazor wants to update the UI.
 
 To update the UI, Blazor has to execute the required DOM operations by calling a JavaScript function (`renderBatch`). Blazor uses the global scope (the `window` object) to find methods. For a JavaScript function to be called by Blazor it has to be assigned to the the `window` object by its name.
 
-When Blazor needs to update the UI it calls `UpdateDisplay` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.5.0/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)) which calls `MonoWebAssemblyJSRuntime.InvokeUnmarshalled` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.5.0/src/Mono.WebAssembly.Interop/MonoWebAssemblyJSRuntime.cs)). To invoke the JavaScript function `renderBatch` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.5.0/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering/Renderer.ts)) Blazor uses the method `InvokeJSUnmarshalled` declared in `Mono.WebAssembly.Interop.InternalCalls`. If you take a look at [their source code on GitHub](https://github.com/aspnet/Blazor/blob/release/0.5.0/src/Mono.WebAssembly.Interop/InternalCalls.cs), you will see that the methods are declared as `extern` (and use the attribute [`MethodImpl(MethodImplOptions.InternalCall)]`) which means that they are not implemented within Blazor but within the runtime (Mono).
+When Blazor needs to update the UI it calls `UpdateDisplay` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)) which calls `MonoWebAssemblyJSRuntime.InvokeUnmarshalled` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Mono.WebAssembly.Interop/MonoWebAssemblyJSRuntime.cs)). To invoke the JavaScript function `renderBatch` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering/Renderer.ts)) Blazor uses the method `InvokeJSUnmarshalled` declared in `Mono.WebAssembly.Interop.InternalCalls`. If you take a look at [their source code on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Mono.WebAssembly.Interop/InternalCalls.cs), you will see that the methods are declared as `extern` (and use the attribute [`MethodImpl(MethodImplOptions.InternalCall)]`) which means that they are not implemented within Blazor but within the runtime (Mono).
 
 When Blazor wants to invoke such a function (e.g. `renderBatch` to update the UI) it passes the function name (and the arguments) to `InvokeJSUnmarshalled` of the Mono runtime which in turn invokes the specified JavaScript function.
 
 ## Calling a JavaScript function from C\#
 
-To use an JavaScript function from our Blazor app, we have to assign it it on the JavaScript side to the global scope (the `window` object, to be explicit). On the C# side we can call this function by using `JSRuntime.Current.InvokeAsync`. Here is a code example with comments describing some details:
+To use an JavaScript function from our Blazor app, we have to assign it it on the JavaScript side to the global scope (the `window` object). On the C# side we can call this function by using `JSRuntime.Current.InvokeAsync`. Here is a code example with comments describing some details:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>...</head>
+<body>
+    <app>Loading...</app>
+
+    ...
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        // Define a very simple JavaScript function that just prints
+        // the input parameter to the browser's console
+        window.say = (data) => {
+            console.dir(data);
+
+            // Your function currently has to return something. For demo
+            // purposes, we just return `true`.
+            return true;
+        };
+    </script>
+    ...
+</body>
+</html>
+```
 
 ```cs
 @page "/interop-basics"
@@ -40,17 +65,6 @@ To use an JavaScript function from our Blazor app, we have to assign it it on th
 <h1>Interop Basics</h1>
 
 <button onclick=@CallJS>Call JavaScript</button>
-<script>
-    // Register a very simple JavaScript function that just prints
-    // the input parameter to the browser's console
-    window.say = (data) => {
-        console.dir(data);
-
-        // Your function currently has to return something. For demo
-        // purposes, we just return `true`.
-        return true;
-    }
-</script>
 
 @functions {
     private async void CallJS()
@@ -85,51 +99,44 @@ JavaScript interop of Blazor does not change the casing of members when turning 
 
 Let's have a look at the other way around. Now we want to call a C# method from JavaScript.
 
-First of all we need to define the C# method that we want to invoke:
+First of all we need to define the C# method that we want to invoke. Note the `JSInvokable` attribute applied to the method.
 
 ```cs
-namespace BlazorDemo.Client
+using Microsoft.JSInterop;
+using System.Threading.Tasks;
+
+namespace RestApi.Client.Pages
 {
     public static class StringUtil
     {
-        public static string Concat(string str1, string str2, string str3) {
-            return string.Concat(str1, str2, str3);
-       }
+        [JSInvokable]
+        public static Task<string> Concat(string str1, string str2, string str3)
+        {
+            return Task.FromResult(string.Concat(str1, str2, str3));
+        }
     }
 }
 ```
 
-On the JavaScript side we have a little more work to do - there is currently no utility method that frees us from manually marshalling the arguments (and the return value). First we have to find the target method by calling `findMethod`. Then we have to convert the parameters from JavaScript string representation to .NET string representation using `toDotNetString`.
-
-After that we can invoke the C# method by using `Blazor.platform.callMethod` passing the target method, the object instance (null in this case, because it is a static method) and the required arguments. Finally we have to convert the result of this method call (a .NET string) to JavaScript string representation. 
+In older versions of Blazor, calling the C# method required quite a bit of code. It has become much simpler. Just call `DotNet.invokeMethod` or `DotNet.invokeMethodAsync`:
 
 ```js
-const assemblyName = 'BlazorDemo.Client';
-const namespace    = 'BlazorDemo.Client';
-const typeName     = 'StringUtil';
-const methodName   = 'Concat';
+// Define a very simple JavaScript function that just prints
+// the input parameter to the browser's console
+window.say = async (data) => {
+    // Demonstrate how to call a C# method from JavaScript
+    console.log(await DotNet.invokeMethodAsync('RestApi.Client', 'Concat', 'Recieved call ', 'from C#. ', 'Here is the received parameter:'));
 
-const concatMethod = Blazor.platform.findMethod(
-    assemblyName,
-    namespace,
-    typeName,
-    methodName
-);
+    console.dir(data);
 
-let arg1AsDotNetString = Blazor.platform.toDotNetString('Hello ');
-let arg2AsDotNetString = Blazor.platform.toDotNetString('Blazor ');
-let arg3AsDotNetString = Blazor.platform.toDotNetString('(from JS)!');
-
-let resultAsDotNetString = Blazor.platform.callMethod(concatMethod, null, [
-    arg1AsDotNetString,
-    arg2AsDotNetString,
-    arg3AsDotNetString
-]);
-
-let resultAsJavaScriptString = Blazor.platform.toJavaScriptString(resultAsDotNetString);
+    // Your function currently has to return something. For demo
+    // purposes, we just return `true`.
+    return true;
+};
 ```
+
 {{% notice note %}}
-Note that if you want to add javascript event listener registrations (e.g. window.addEventListener("orientationchange", function () { //do something }))  you will need to wrap the event listener registrations in a javascript function and call the function from Program.cs using Javascrip Interop described above. This will make sure .NET is loaded before trying to find the C# method via Blazor.platform.findMethod(). 
+Note that if you want to add javascript event listener registrations (e.g. window.addEventListener("orientationchange", function () { //do something }))  you will need to wrap the event listener registrations in a javascript function and call the function from Program.cs using Javascrip Interop described above. This will make sure .NET is loaded before trying to find the C# method via Blazor.platform.findMethod().
 {{% /notice %}}
 
 ## Integrated Sample
@@ -153,7 +160,7 @@ First, let's start with *index.html*:
 
     <base href="/" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="css/site.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.1.221/styles/kendo.blueopal.min.css" />
@@ -166,6 +173,37 @@ First, let's start with *index.html*:
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2018.1.221/js/kendo.all.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        // Define a very simple JavaScript function that just prints
+        // the input parameter to the browser's console
+        window.say = async (data) => {
+            // Demonstrate how to call a C# method from JavaScript
+            console.log(await DotNet.invokeMethodAsync('RestApi.Client', 'Concat', 'Recieved call ', 'from C#. ', 'Here is the received parameter:'));
+
+            console.dir(data);
+
+            // Your function currently has to return something. For demo
+            // purposes, we just return `true`.
+            return true;
+        };
+    </script>
+    <script>
+        window.fillAutocomplete = (customers) => {
+            // Fill Kendo Autocomplete
+            $("#customers").kendoAutoComplete({
+                dataSource: customers,
+                select: (e) => {
+                    // Call C# when user selects an item in Kendo's Autocomplete
+                    DotNet.invokeMethod('RestApi.Client', 'SelectCustomer', e.dataItem);
+                },
+                filter: "startswith",
+                placeholder: "Select customer...",
+                separator: ", "
+            });
+
+            return true;
+        };
+    </script>
 </body>
 </html>
 ```
@@ -175,42 +213,13 @@ Next, let's look at the C# part demonstrating the JavaScript interop:
 ```cs
 @page "/auto-complete"
 @using RestApi.Shared
-@using Microsoft.JSInterop;
+@using Microsoft.JSInterop
 @using System.Linq
 @inject HttpClient Http
 
 <h1>Autocomplete Demo</h1>
 
 <input id="customers" style="width: 300px" />
-<script>
-    window.fillAutocomplete = (customers) => {
-        // Fill Kendo Autocomplete
-        $("#customers").kendoAutoComplete({
-            dataSource: customers,
-            select: (e) => {
-                // Call C# when user selects an item in Kendo's Autocomplete
-                const assemblyName = 'RestApi.Client';
-                const namespace = 'RestApi.Client.Pages';
-                const typeName = 'KendoAutocomplete';
-                const methodName = 'SelectCustomer';
-
-                const selectedCustomerMethod = Blazor.platform.findMethod(
-                    assemblyName,
-                    namespace,
-                    typeName,
-                    methodName
-                );
-
-                let result = Blazor.platform.callMethod(selectedCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
-            },
-            filter: "startswith",
-            placeholder: "Select customer...",
-            separator: ", "
-        });
-
-        return true;
-    };
-</script>
 
 @functions {
     protected override async Task OnInitAsync()
@@ -232,6 +241,7 @@ Next, let's look at the C# part demonstrating the JavaScript interop:
         await JSRuntime.Current.InvokeAsync<bool>("fillAutocomplete", projectedCustomers);
     }
 
+    [JSInvokable]
     public static void SelectCustomer(string customerName)
     {
         Console.WriteLine($"Select customer '{customerName}'");

@@ -2,7 +2,7 @@
 title = "Data Binding"
 weight = 20
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-04-29
+date = 2018-10-02
 +++
 
 {{% notice note %}}
@@ -19,17 +19,17 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 @page "/one-way-data-binding"
 
 <!-- Use this button to trigger changes in the source values -->
-<button onclick=@ChangeValues>Change values</button>
-<button onclick=@(() => ChangeValues())>Change values</button>
+<button onclick="@ChangeValues">Change values</button>
+<button onclick="@(() => ChangeValues())">Change values</button>
 
-<!-- 
-    Simple interpolation
+<!--
+    Simple interpolation.
     In Angular, this would be {{ Count }}
 -->
 <p>Counter: @Count</p>
 
-<!-- 
-    Conditionally display content 
+<!--
+    Conditionally display content
     In Angular, this would be *ngIf
 -->
 @if (ShowWarning)
@@ -38,23 +38,32 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 }
 
 <!--
+    Conditionally display content with a boolean property. Note that
+    the hidden attribute will be removed if ShowWarning is false.
+    In Angular, this would be [hidden]
+-->
+<p hidden="@ShowWarning">Everything is fine :-)</p>
+
+<!--
     Style binding
     In Angular, you would do that with [style.backgroundColor]="..."
 -->
 <p style="background-color: @Background; color=white; padding: 5px">Notification</p>
 
 <!--
-    Add/remove class
+    Add/remove class. Note that the second variant removes the class name in
+    HighlightClass if the property is null.
     In Angular, you would do that with [class.highlight]="..."
 -->
 <p class="note @((NoteIsActive ? "highlight" : ""))">This is a note</p>
+<p class="note @HighlightClass">This is a note</p>
 
 <!--
-    Bind to a collection 
+    Bind to a collection
     In Angular, you would do that with *ngFor
 -->
 <ul>
-    @foreach(var number in Numbers)
+    @foreach (var number in Numbers)
     {
         <li>@number</li>
     }
@@ -66,11 +75,13 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
     private string Background { get; set; } = "red";
     private bool NoteIsActive { get; set; } = true;
     private List<int> Numbers { get; set; } = new List<int> { 1, 2, 3 };
+    private string HighlightClass { get; set; } = "highlight";
 
     private void ChangeValues()
     {
         Count++;
         ShowWarning = !ShowWarning;
+        HighlightClass = HighlightClass == null ? "highlight" : null;
         Background = Background == "red" ? "green" : "red";
         NoteIsActive = !NoteIsActive;
         Numbers.Add(Numbers.Max() + 1);
@@ -80,37 +91,27 @@ I have been doing quite a lot of Angular work. Therefore, I added some comments 
 
 ## Two-Way Data Binding
 
-Blazor already supports two-way data binding using `bind=...`. The following example demonstrates some two-way data-binding scenarios. Note that at the time of writing, Blazor supports the following types for two-way data binding:
-
-* `int`
-* `string`
-* `DateTime`
-* Enumerations
-* `boolean`
-
-If you need other types (e.g. decimal), you need to provide getter and setter from/to a supported type.
-
-The following example demonstrates different binding scenarios. The comments in the code describe details about the used binding mechanisms:
+Blazor already supports two-way data binding using `bind=...`. The following example demonstrates some two-way data-binding scenarios.The comments in the code describe details about the used binding mechanisms:
 
 ```cs
 @page "/two-way-data-binding"
 
 <p>
     @* You can bind using @Property or @Field *@
-    Enter your name: <input type="text" bind=@Name /><br />
+    Enter your name: <input type="text" bind="@Name" /><br />
 
     @* Alternatively also using "Property" or "Field" *@
-    What is your age? <input type="number" bind="Age" /><br />
+    What is your age? <input type="number" bind="@Age" /><br />
 
     @* Note how to pass a format for DateTime *@
-    What is your birthday (culture-invariant default format)? <input type="text" bind="Birthday" /><br />
-    What is your birthday (German date format)? <input type="text" bind="Birthday" format-value="dd.MM.yyyy" /><br />
+    What is your birthday (culture-invariant default format)? <input type="text" bind="@Birthday" /><br />
+    What is your birthday (German date format)? <input type="text" bind="@Birthday" format-value="dd.MM.yyyy" /><br />
 
     @* Data binding for checkboxes with boolean properties *@
-    Are you an administrator? <input type="checkbox" bind="IsAdmin" /><br />
+    Are you an administrator? <input type="checkbox" bind="@IsAdmin" /><br />
 
     @* Data binding for selects with enums *@
-    <select id="select-box" bind="TypeOfEmployee">
+    <select id="select-box" bind="@TypeOfEmployee">
         <option value=@EmployeeType.Employee>@EmployeeType.Employee.ToString()</option>
         <option value=@EmployeeType.Contractor>@EmployeeType.Contractor.ToString()</option>
         <option value=@EmployeeType.Intern>@EmployeeType.Intern.ToString()</option>
@@ -144,8 +145,6 @@ The following example demonstrates different binding scenarios. The comments in 
 }
 ```
 
-You find more details in the Blazor GitHub issue [#409](https://github.com/aspnet/Blazor/issues/409).
-
 ## Bind Value to Child Component
 
 You can use data binding for communication between components. Here is an example that demonstrates how to bind a value in a parent component to a child component. The child component uses to value to generate a list of value (in practice this could be e.g. due to a web api response).
@@ -177,6 +176,7 @@ You can use data binding for communication between components. Here is an exampl
 ...
 @functions {
     ...
+    [Parameter]
     public int NumberOfElements { get; set; }
 
     private IEnumerable<int> Numbers

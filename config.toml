@@ -23,16 +23,16 @@ url = "https://github.com/aspnet/Blazor"
 weight = 10
 
 [[menu.shortcuts]] 
-name = "<i class='fa fa-youtube'></i> Steve about Blazor"
-identifier = "sy"
-url = "https://www.youtube.com/watch?v=MiLAE6HMr10&feature=youtu.be&t=31m45s"
-weight = 20
-
-[[menu.shortcuts]] 
 name = "<i class='fa fa-code'></i> Technical Intro (Blog)"
 identifier = "ti"
 url = "http://blog.stevensanderson.com/2018/02/06/blazor-intro/"
 weight = 30
+
+[[menu.shortcuts]] 
+name = "<i class='fa fa-code'></i> Blazor Docs"
+identifier = "do"
+url = "https://blazor.net/docs/"
+weight = 35
 
 [[menu.shortcuts]] 
 name = "<i class='fa fa-bullhorn'></i> Terms of Service"

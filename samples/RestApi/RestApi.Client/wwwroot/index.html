@@ -24,7 +24,10 @@
     <script>
         // Define a very simple JavaScript function that just prints
         // the input parameter to the browser's console
-        window.say = (data) => {
+        window.say = async (data) => {
+            // Demonstrate how to call a C# method from JavaScript
+            console.log(await DotNet.invokeMethodAsync('RestApi.Client', 'Concat', 'Recieved call ', 'from C#. ', 'Here is the received parameter:'));
+
             console.dir(data);
 
             // Your function currently has to return something. For demo
@@ -39,19 +42,7 @@
                 dataSource: customers,
                 select: (e) => {
                     // Call C# when user selects an item in Kendo's Autocomplete
-                    const assemblyName = 'RestApi.Client';
-                    const namespace = 'RestApi.Client.Pages';
-                    const typeName = 'KendoAutocomplete';
-                    const methodName = 'SelectCustomer';
-
-                    const selectCustomerMethod = Blazor.platform.findMethod(
-                        assemblyName,
-                        namespace,
-                        typeName,
-                        methodName
-                    );
-
-                    let result = Blazor.platform.callMethod(selectCustomerMethod, null, [Blazor.platform.toDotNetString(e.dataItem)]);
+                    DotNet.invokeMethod('RestApi.Client', 'SelectCustomer', e.dataItem);
                 },
                 filter: "startswith",
                 placeholder: "Select customer...",

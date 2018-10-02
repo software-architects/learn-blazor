@@ -2,7 +2,7 @@
 title = "Dependency Injection"
 weight = 10
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-04-03
+date = 2018-10-02
 +++
 
 ## Introduction
@@ -25,41 +25,50 @@ Blazor's implementation of `System.IServiceProvider` obtains its services from a
 
 ## Add services to DI
 
-After creating a new Blazor app, examine the `Main` method in *Program.cs*:
+After creating a new Blazor app, examine the `Startup` class in *Startup.cs*. If you know ASP.NET Core, this class should look familar to you.
 
 ```cs
-static void Main(string[] args)
-{
-    var serviceProvider = new BrowserServiceProvider(configure =>
-    {
-        // Add any custom services here
-    });
+using DependencyInjection.Pages;
+using DependencyInjection.Services;
+using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-    new BrowserRenderer(serviceProvider).AddComponent<App>("app");
+namespace DependencyInjection
+{
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add additional services here
+        }
+
+        public void Configure(IBlazorApplicationBuilder app)
+        {
+            app.AddComponent<App>("app");
+        }
+    }
 }
 ```
 
-When we create the `BrowserRenderer` ([more about *renderers*](/getting-started/what-is-blazor/#renderer)) to bootstrap our Blazor app, it expects a *service provider* (`System.IServiceProvider`). Blazor comes with a service provider specifically for the browser (`Microsoft.AspNetCore.Blazor.Browser.Services.BrowserServiceProvider`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/release/0.1.0/src/Microsoft.AspNetCore.Blazor/Services/BrowserServiceProvider.cs)). `BrowserServiceProvider` receives an action with which you can add your app services to Blazor's DI. `configure` is referencing the underlying `IServiceCollection`, which is a list of service descriptor objects ([Microsoft.Extensions.DependencyInjection.ServiceDescriptor](https://docs.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.servicedescriptor)). Services are added by providing service descriptors to the service collection. The following is a code sample demonstrating the concept:
+Blazor comes with a service provider specifically for the browser (`Microsoft.AspNetCore.Blazor.Browser.Services.BrowserServiceProvider`, see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser/Services/BrowserServiceProvider.cs)). The following is a code sample demonstrating how to add services to it:
 
 ```cs
-static void Main(string[] args)
+public void ConfigureServices(IServiceCollection services)
 {
-    var serviceProvider = new BrowserServiceProvider(configure =>
-    {
-        configure.Add(ServiceDescriptor.Singleton<IDataAccess, DataAccess>());
-    });
-
-    new BrowserRenderer(serviceProvider).AddComponent<App>("app");
+    services.AddTransient<IRepository, Repository>();
+    services.AddTransient<MyTransientService, MyTransientService>();
+    services.AddScoped<MyScopedService, MyScopedService>();
+    services.AddSingleton<MySingletonService, MySingletonService>();
 }
 ```
 
-`ServiceDescriptor` offers various overloads of three different functions that can be used to add services to Blazor's DI:
+`IServiceCollection` offers various overloads of three different functions that can be used to add services to Blazor's DI:
 
 | Method      | Description |
 | ----------- | ----------- |
-| `Singleton` | Blazor creates a *single instance* of your service. All components requiring this service receive a reference to this instance. |
-| `Transient` | Whenever a component requires this service, it receives a *new instance* of the service. |
-| `Scoped`    | Blazor doesn't currently have the concept of DI scopes. `Scoped` behaves like `Singleton`. Therefore, prefer `Singleton` and avoid `Scoped`. |
+| `AddSingleton` | Blazor creates a *single instance* of your service. All components requiring this service receive a reference to this instance. |
+| `AddTransient` | Whenever a component requires this service, it receives a *new instance* of the service. |
+| `AddScoped`    | Blazor doesn't currently have the concept of DI scopes. `Scoped` behaves like `Singleton`. Therefore, prefer `Singleton` and avoid `Scoped`. |
 
 ## System services
 

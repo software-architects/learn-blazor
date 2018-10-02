@@ -20,16 +20,25 @@
 }
 
 <!--
+    Conditionally display content with a boolean property. Note that
+    the hidden attribute will be removed if ShowWarning is false.
+    In Angular, this would be [hidden]
+-->
+<p hidden="@ShowWarning">Everything is fine :-)</p>
+
+<!--
     Style binding
     In Angular, you would do that with [style.backgroundColor]="..."
 -->
 <p style="background-color: @Background; color: white; padding: 5px">Notification</p>
 
 <!--
-    Add/remove class
+    Add/remove class. Note that the second variant removes the class name in
+    HighlightClass if the property is null.
     In Angular, you would do that with [class.highlight]="..."
 -->
 <p class="note @((NoteIsActive ? "highlight" : ""))">This is a note</p>
+<p class="note @HighlightClass">This is a note</p>
 
 <!--
     Bind to a collection
@@ -48,11 +57,13 @@
     private string Background { get; set; } = "red";
     private bool NoteIsActive { get; set; } = true;
     private List<int> Numbers { get; set; } = new List<int> { 1, 2, 3 };
+    private string HighlightClass { get; set; } = "highlight";
 
     private void ChangeValues()
     {
         Count++;
         ShowWarning = !ShowWarning;
+        HighlightClass = HighlightClass == null ? "highlight" : null;
         Background = Background == "red" ? "green" : "red";
         NoteIsActive = !NoteIsActive;
         Numbers.Add(Numbers.Max() + 1);

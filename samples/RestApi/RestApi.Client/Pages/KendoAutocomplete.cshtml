@@ -28,6 +28,7 @@
         await JSRuntime.Current.InvokeAsync<bool>("fillAutocomplete", projectedCustomers);
     }
 
+    [JSInvokable]
     public static void SelectCustomer(string customerName)
     {
         Console.WriteLine($"Select customer '{customerName}'");

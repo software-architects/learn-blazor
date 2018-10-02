@@ -2,7 +2,7 @@
 title = "About"
 weight = 5
 lastModifierDisplayName = "rainer@software-architects.at"
-date = 2018-03-23
+date = 2018-10-01
 +++
 
 ## Introduction
@@ -16,6 +16,8 @@ At the time of writing, Blazor is in a very early stage. Microsoft calls it an *
 {{% notice warning %}}
 Today, nobody knows for sure what the future of Blazor is. It might change fundamentally, it might even never see the light of day. **Don't build production systems with it today!** It's time to experiment, contribute, and give feedback.
 {{% /notice %}}
+
+Microsoft [has announced](https://channel9.msdn.com/Events/dotnetConf/2018/S207) that they plan to release the [Server-side Hosting Model](https://blazor.net/docs/host-and-deploy/hosting-models.html#server-side-hosting-model) with [.NET Core 3](https://blogs.msdn.microsoft.com/dotnet/2018/05/07/net-core-3-and-support-for-windows-desktop-applications/).
 
 ## Target Audience
 
