@@ -66,9 +66,9 @@ public void ConfigureServices(IServiceCollection services)
 
 | Method      | Description |
 | ----------- | ----------- |
-| `AddSingleton` | Blazor creates a *single instance* of your service. All components requiring this service receive a reference to this instance. |
+| `AddSingleton` | Blazor creates a *single instance* of your service. All components requiring this service receive a reference to this instance. Server-side Blazor shares the instance with all user sessions. For client-side Blazor, the instance lives in the client and is therefore session private. |
 | `AddTransient` | Whenever a component requires this service, it receives a *new instance* of the service. |
-| `AddScoped`    | Blazor doesn't currently have the concept of DI scopes. `Scoped` behaves like `Singleton`. Therefore, prefer `Singleton` and avoid `Scoped`. |
+| `AddScoped`    | Server-side Blazor creates a separate service instance for each SignalR connection. It is therefore session private. A page reload creates a new SignalR connection and therefore a new service instance; so it will not live as long as the session. Client-side Blazor doesn't currently have the concept of DI scopes. `Scoped` behaves like `Singleton`, i.e. it is session private. |
 
 ## System services
 
