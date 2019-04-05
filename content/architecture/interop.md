@@ -21,7 +21,7 @@ WebAssembly programs can call JavaScript functions and those in turn can use all
 
 Let's look at the case when Blazor wants to update the UI.
 
-To update the UI, Blazor has to execute the required DOM operations by calling a JavaScript function (`renderBatch`). Blazor uses the global scope (the `window` object) to find methods. For a JavaScript function to be called by Blazor it has to be assigned to the the `window` object by its name.
+To update the UI, Blazor has to execute the required DOM operations by calling a JavaScript function (`renderBatch`). Blazor uses the global scope (the `window` object) to find methods. For a JavaScript function to be called by Blazor it has to be assigned to the `window` object by its name.
 
 When Blazor needs to update the UI it calls `UpdateDisplay` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser/Rendering/BrowserRenderer.cs)) which calls `MonoWebAssemblyJSRuntime.InvokeUnmarshalled` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Mono.WebAssembly.Interop/MonoWebAssemblyJSRuntime.cs)). To invoke the JavaScript function `renderBatch` (see [source on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Microsoft.AspNetCore.Blazor.Browser.JS/src/Rendering/Renderer.ts)) Blazor uses the method `InvokeJSUnmarshalled` declared in `Mono.WebAssembly.Interop.InternalCalls`. If you take a look at [their source code on GitHub](https://github.com/aspnet/Blazor/blob/master/src/Mono.WebAssembly.Interop/InternalCalls.cs), you will see that the methods are declared as `extern` (and use the attribute [`MethodImpl(MethodImplOptions.InternalCall)]`) which means that they are not implemented within Blazor but within the runtime (Mono).
 
