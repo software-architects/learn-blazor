@@ -7,6 +7,10 @@ weight = 20
 
 ### Learn Blazor
 
+{{% notice note %}}
+{{% siteparam "disclaimer" %}}
+{{% /notice %}}
+
 # Creating Blazor Pages
 
 Learn how to create Blazor pages.

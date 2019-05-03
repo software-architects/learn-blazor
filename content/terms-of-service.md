@@ -2,6 +2,10 @@
 title = "Terms of Service"
 +++
 
+{{% notice note %}}
+{{% siteparam "disclaimer" %}}
+{{% /notice %}}
+
 ## Publisher
 
 **software architects gmbh**<br/>
@@ -22,7 +26,7 @@ This site's content is licensed under a [Attribution-NonCommercial-ShareAlike 4.
 
 ## Disclaimer
 
-> Blazor is an **experimental** project. It changes rapidly. **Do not use it** for production systems.
+> Blazor is available in a preview release. Be careful if you use it for production systems.
 
 The materials on this website are provided on an *as is* basis. The publisher makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
 

@@ -143,7 +143,3 @@ You can add query parameters using the `IUriHelper` [default service](https://le
     }
 }
 ```
-
-## Future Enhancements
-
-Note that the Blazor teams tracks future enhancements of the router [in this GitHub issue](https://github.com/aspnet/Blazor/issues/293).

@@ -9,4 +9,9 @@ weight = 10
 
 # Getting Started
 
+{{% notice note %}}
+{{% siteparam "disclaimer" %}}
+{{% /notice %}}
+
 Learn how you can get started with Blazor.
+
