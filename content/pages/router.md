@@ -108,7 +108,7 @@ You can add query parameters using the `IUriHelper` [default service](https://le
         UriHelper.OnLocationChanged += OnLocationChanges;
     }
 
-    private void OnLocationChanges(object sender, string location) => RefreshType();
+    private void OnLocationChanges(object sender, LocationChangedEventArgs e) => RefreshType();
 
     private void RefreshType()
     {
