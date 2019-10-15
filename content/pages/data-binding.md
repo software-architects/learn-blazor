@@ -98,20 +98,20 @@ Blazor already supports two-way data binding using `bind=...`. The following exa
 
 <p>
     @* You can bind using @Property or @Field *@
-    Enter your name: <input type="text" bind="@Name" /><br />
+    Enter your name: <input type="text" @bind="Name" /><br />
 
     @* Alternatively also using "Property" or "Field" *@
-    What is your age? <input type="number" bind="@Age" /><br />
+    What is your age? <input type="number" @bind="Age" /><br />
 
     @* Note how to pass a format for DateTime *@
-    What is your birthday (culture-invariant default format)? <input type="text" bind="@Birthday" /><br />
-    What is your birthday (German date format)? <input type="text" bind="@Birthday" format-value="dd.MM.yyyy" /><br />
+    What is your birthday (culture-invariant default format)? <input type="text" @bind="Birthday" /><br />
+    What is your birthday (German date format)? <input type="text" @bind="Birthday" format-value="dd.MM.yyyy" /><br />
 
     @* Data binding for checkboxes with boolean properties *@
-    Are you an administrator? <input type="checkbox" bind="@IsAdmin" /><br />
+    Are you an administrator? <input type="checkbox" @bind="IsAdmin" /><br />
 
     @* Data binding for selects with enums *@
-    <select id="select-box" bind="@TypeOfEmployee">
+    <select id="select-box" @bind="TypeOfEmployee">
         <option value=@EmployeeType.Employee>@EmployeeType.Employee.ToString()</option>
         <option value=@EmployeeType.Contractor>@EmployeeType.Contractor.ToString()</option>
         <option value=@EmployeeType.Intern>@EmployeeType.Intern.ToString()</option>
