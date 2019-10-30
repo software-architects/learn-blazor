@@ -225,7 +225,7 @@ Blazor detects a necessary UI refresh automatically in many scenarios (e.g. afte
 }
 ```
 
-Note that `StateHasChanged` only triggers a UI refresh for the current component. If does not automatically refresh its child or parent components.
+Note that `StateHasChanged` only triggers a UI refresh for the current component. It does not automatically refresh its child or parent components.
 
 ## Event Binding
 
